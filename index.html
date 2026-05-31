@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rich Camel 🐫 - Tap to Earn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top, #2d1b0d, #000000);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+        }
+
+        .gold-text {
+            background: linear-gradient(to bottom, #FFD700, #B8860B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab-content { display: none; height: calc(100vh - 160px); overflow-y: auto; }
+        .active-tab { display: block; }
+
+        .camel-btn {
+            transition: transform 0.1s ease;
+            touch-action: manipulation;
+        }
+        .camel-btn:active { transform: scale(0.92); }
+
+        .floating-coin {
+            position: absolute;
+            animation: floatUp 0.8s ease-out forwards;
+            pointer-events: none;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-120px); opacity: 0; }
+        }
+
+        .nav-btn.active { color: #FFD700; border-top: 2px solid #FFD700; }
+        
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="p-4">
+
+    <!-- Header Stats -->
+    <div class="flex justify-between items-center mb-4 bg-gray-900/50 p-3 rounded-2xl border border-yellow-700/30">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center text-xl">🐫</div>
+            <div>
+                <p class="text-xs text-gray-400">Profit per hour</p>
+                <p class="text-sm font-bold text-green-400" id="pph-display">+0</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-xs text-gray-400" id="rank-name">Nomad</p>
+            <div class="w-24 h-2 bg-gray-700 rounded-full mt-1">
+                <div id="rank-progress" class="h-full bg-yellow-500 rounded-full" style="width: 10%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Balance -->
+    <div class="text-center my-6">
+        <div class="flex justify-center items-center gap-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/272/272525.png" class="w-12 h-12" alt="coin">
+            <h1 class="text-5xl font-extrabold" id="balance">0</h1>
+        </div>
+    </div>
+
+    <!-- Tab Contents -->
+    
+    <!-- 1. HOME TAB (Tapping) -->
+    <div id="home" class="tab-content active-tab">
+        <div class="flex flex-col items-center justify-center h-full relative">
+            <button class="camel-btn relative" id="tap-target">
+                <div class="w-64 h-64 bg-yellow-500/20 rounded-full flex items-center justify-center border-8 border-yellow-600/50 shadow-[0_0_50px_rgba(218,165,32,0.3)]">
+                    <span class="text-[120px]">🐫</span>
+                </div>
+            </button>
+
+            <div class="w-full mt-12 px-6">
+                <div class="flex justify-between mb-2 text-sm font-bold">
+                    <span>⚡ <span id="energy">1000</span>/1000</span>
+                    <span>Level 1/8</span>
+                </div>
+                <div class="w-full h-4 bg-gray-800 rounded-full border border-gray-700">
+                    <div id="energy-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MINE TAB (Upgrades) -->
+    <div id="mine" class="tab-content">
+        <h2 class="text-xl font-bold mb-4 gold-text">Desert Businesses</h2>
+        <div class="grid grid-cols-1 gap-3" id="upgrade-list">
+            <!-- Upgrades will be injected here -->
+        </div>
+    </div>
+
+    <!-- 3. TASKS TAB -->
+    <div id="tasks" class="tab-content text-center">
+        <h2 class="text-xl font-bold mb-4 gold-text">Social Missions</h2>
+        <div class="space-y-3">
+            <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-telegram text-blue-400 text-2xl"></i>
+                    <div class="text-left">
+                        <p class="font-bold">Join Channel</p>
+                        <p class="text-xs text-green-400">+50,000 RCAMEL</p>
+                    </div>
+                </div>
+                <button class="bg-yellow-600 px-4 py-1 rounded-lg text-sm font-bold">Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. AIRDROP TAB -->
+    <div id="airdrop" class="tab-content text-center">
+        <div class="mt-10">
+            <div class="text-6xl mb-4">💎</div>
+            <h2 class="text-3xl font-bold gold-text">RCAMEL Token</h2>
+            <p class="text-gray-400 mt-2 px-6">Airdrop calculation is based on your Profit per Hour and Tasks completed.</p>
+            
+            <div class="mt-10 p-6 bg-yellow-600/10 border border-yellow-600/30 rounded-3xl mx-4">
+                <p class="text-sm">Listing Status</p>
+                <p class="text-xl font-bold text-yellow-500">Coming Soon on TON</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-md border-t border-yellow-900/50 flex justify-around py-3">
+        <button onclick="showTab('home')" class="nav-btn active flex flex-col items-center">
+            <i class="fas fa-hand-pointer text-xl"></i>
+            <span class="text-[10px] mt-1">Tap</span>
+        </button>
+        <button onclick="showTab('mine')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-pickaxe text-xl"></i>
+            <span class="text-[10px] mt-1">Mine</span>
+        </button>
+        <button onclick="showTab('tasks')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-tasks text-xl"></i>
+            <span class="text-[10px] mt-1">Tasks</span>
+        </button>
+        <button onclick="showTab('airdrop')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-parachute-box text-xl"></i>
+            <span class="text-[10px] mt-1">Airdrop</span>
+        </button>
+    </div>
+
+    <script>
+        // Game State
+        let balance = 0;
+        let pph = 0;
+        let energy = 1000;
+        const maxEnergy = 1000;
+        let multitap = 1;
+
+        const ranks = [
+            {name: "Nomad", min: 0},
+            {name: "Merchant", min: 10000},
+            {name: "Trader", min: 50000},
+            {name: "Millionaire", min: 1000000},
+            {name: "Rich Camel Legend", min: 10000000}
+        ];
+
+        const upgrades = [
+            { id: 1, name: "Camel Milk Farm", cost: 500, pphBoost: 50, icon: "🥛", level: 0 },
+            { id: 2, name: "Desert Caravan", cost: 2000, pphBoost: 250, icon: "🚚", level: 0 },
+            { id: 3, name: "Oasis Resort", cost: 10000, pphBoost: 1200, icon: "🌴", level: 0 },
+            { id: 4, name: "Gold Mine", cost: 50000, pphBoost: 5500, icon: "⛏️", level: 0 },
+            { id: 5, name: "Crypto Exchange", cost: 250000, pphBoost: 20000, icon: "💹", level: 0 }
+        ];
+
+        // Elements
+        const balanceEl = document.getElementById('balance');
+        const energyEl = document.getElementById('energy');
+        const energyBar = document.getElementById('energy-bar');
+        const pphEl = document.getElementById('pph-display');
+        const tapTarget = document.getElementById('tap-target');
+
+        // Tapping Logic
+        tapTarget.addEventListener('click', (e) => {
+            if (energy >= multitap) {
+                updateBalance(multitap);
+                updateEnergy(-multitap);
+                showFloatingText(e.clientX, e.clientY, `+${multitap}`);
+            }
+        });
+
+        function updateBalance(amount) {
+            balance += amount;
+            balanceEl.innerText = Math.floor(balance).toLocaleString();
+            updateRank();
+        }
+
+        function updateEnergy(amount) {
+            energy += amount;
+            if (energy > maxEnergy) energy = maxEnergy;
+            energyEl.innerText = energy;
+            energyBar.style.width = (energy / maxEnergy * 100) + '%';
+        }
+
+        function updateRank() {
+            let currentRank = ranks[0];
+            for (let r of ranks) {
+                if (balance >= r.min) currentRank = r;
+            }
+            document.getElementById('rank-name').innerText = currentRank.name;
+        }
+
+        // Floating Animation
+        function showFloatingText(x, y, text) {
+            const el = document.createElement('div');
+            el.className = 'floating-coin';
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.innerText = text;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 800);
+        }
+
+        // Passive Income Logic (Mining)
+        function initUpgrades() {
+            const list = document.getElementById('upgrade-list');
+            list.innerHTML = '';
+            upgrades.forEach(u => {
+                const card = document.createElement('div');
+                card.className = "bg-gray-900 p-4 rounded-2xl flex justify-between items-center border border-gray-800 shadow-lg";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">${u.icon}</span>
+                        <div>
+                            <p class="font-bold">${u.name}</p>
+                            <p class="text-xs text-gray-400">Lv ${u.level} • +${u.pphBoost}/hr</p>
+                            <p class="text-sm font-bold text-yellow-500">💰 ${u.cost.toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <button onclick="buyUpgrade(${u.id})" class="bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-xl text-sm font-bold transition">Upgrade</button>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        window.buyUpgrade = (id) => {
+            const u = upgrades.find(up => up.id === id);
+            if (balance >= u.cost) {
+                balance -= u.cost;
+                pph += u.pphBoost;
+                u.level++;
+                u.cost = Math.floor(u.cost * 1.5);
+                updateBalance(0);
+                pphEl.innerText = `+${pph.toLocaleString()}/hr`;
+                initUpgrades();
+            } else {
+                alert("Not enough Rich Coins!");
+            }
+        };
+
+        // Tab System
+        window.showTab = (tabId) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'text-yellow-500'));
+            
+            document.getElementById(tabId).classList.add('active-tab');
+            event.currentTarget.classList.add('active');
+        };
+
+        // Game Loops
+        setInterval(() => {
+            // Passive Income every second
+            if (pph > 0) {
+                updateBalance(pph / 3600);
+            }
+            // Energy Refill
+            updateEnergy(2);
+        }, 1000);
+
+        // Initialize
+        initUpgrades();
+    </script>
+</body>
+</html>
