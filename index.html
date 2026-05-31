@@ -6,48 +6,41 @@
     <title>Rich Camel 🐫 - Tap to Earn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Gigapub Ad Script -->
+    <script data-project-id="6845">
+      !function(){
+        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+        function l(){
+          sc=document.createElement('script');
+          sc.async=true;
+          sc.src=d[i]+'/script?id='+p;
+          clearTimeout(t);
+          t=setTimeout(function(){
+            sc.onload=sc.onerror=null;
+            sc.src='';
+            if(++i<d.length)l();
+          },15000);
+          sc.onload=function(){clearTimeout(t)};
+          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+          document.head.appendChild(sc);
+        }
+        l();
+      }();
+    </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top, #2d1b0d, #000000);
-            color: white;
-            overflow: hidden;
-            height: 100vh;
-            user-select: none;
-        }
-
-        .gold-text {
-            background: linear-gradient(to bottom, #FFD700, #B8860B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tab-content { display: none; height: calc(100vh - 160px); overflow-y: auto; }
+        body { font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #2d1b0d, #000000); color: white; overflow: hidden; height: 100vh; user-select: none; }
+        .gold-text { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tab-content { display: none; height: calc(100vh - 160px); overflow-y: auto; padding-bottom: 50px; }
         .active-tab { display: block; }
-
-        .camel-btn {
-            transition: transform 0.1s ease;
-            touch-action: manipulation;
-        }
+        .camel-btn { transition: transform 0.1s ease; touch-action: manipulation; }
         .camel-btn:active { transform: scale(0.92); }
-
-        .floating-coin {
-            position: absolute;
-            animation: floatUp 0.8s ease-out forwards;
-            pointer-events: none;
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-120px); opacity: 0; }
-        }
-
+        .floating-coin { position: absolute; animation: floatUp 0.8s ease-out forwards; pointer-events: none; font-weight: bold; color: #FFD700; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
         .nav-btn.active { color: #FFD700; border-top: 2px solid #FFD700; }
-        
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
@@ -78,9 +71,7 @@
         </div>
     </div>
 
-    <!-- Tab Contents -->
-    
-    <!-- 1. HOME TAB (Tapping) -->
+    <!-- Home Tab -->
     <div id="home" class="tab-content active-tab">
         <div class="flex flex-col items-center justify-center h-full relative">
             <button class="camel-btn relative" id="tap-target">
@@ -88,11 +79,10 @@
                     <span class="text-[120px]">🐫</span>
                 </div>
             </button>
-
             <div class="w-full mt-12 px-6">
                 <div class="flex justify-between mb-2 text-sm font-bold">
                     <span>⚡ <span id="energy">1000</span>/1000</span>
-                    <span>Level 1/8</span>
+                    <span id="level-txt">Level 1/8</span>
                 </div>
                 <div class="w-full h-4 bg-gray-800 rounded-full border border-gray-700">
                     <div id="energy-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all" style="width: 100%"></div>
@@ -101,38 +91,47 @@
         </div>
     </div>
 
-    <!-- 2. MINE TAB (Upgrades) -->
+    <!-- Mine Tab -->
     <div id="mine" class="tab-content">
         <h2 class="text-xl font-bold mb-4 gold-text">Desert Businesses</h2>
-        <div class="grid grid-cols-1 gap-3" id="upgrade-list">
-            <!-- Upgrades will be injected here -->
-        </div>
+        <div class="grid grid-cols-1 gap-3" id="upgrade-list"></div>
     </div>
 
-    <!-- 3. TASKS TAB -->
-    <div id="tasks" class="tab-content text-center">
-        <h2 class="text-xl font-bold mb-4 gold-text">Social Missions</h2>
+    <!-- Tasks Tab -->
+    <div id="tasks" class="tab-content">
+        <h2 class="text-xl font-bold mb-4 gold-text text-center">Social Missions</h2>
         <div class="space-y-3">
+            <!-- Telegram Task -->
             <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
                 <div class="flex items-center gap-3">
                     <i class="fab fa-telegram text-blue-400 text-2xl"></i>
                     <div class="text-left">
-                        <p class="font-bold">Join Channel</p>
-                        <p class="text-xs text-green-400">+50,000 RCAMEL</p>
+                        <p class="font-bold text-sm">Join Rich Camel Channel</p>
+                        <p class="text-xs text-yellow-400">+2,000 RCAMEL</p>
                     </div>
                 </div>
-                <button class="bg-yellow-600 px-4 py-1 rounded-lg text-sm font-bold">Join</button>
+                <button onclick="completeTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-4 py-1 rounded-lg text-xs font-bold">Join</button>
+            </div>
+            <!-- YouTube Task -->
+            <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-youtube text-red-500 text-2xl"></i>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Subscribe YouTube</p>
+                        <p class="text-xs text-yellow-400">+2,000 RCAMEL</p>
+                    </div>
+                </div>
+                <button onclick="completeTask('yt', 'https://youtube.com/channel/UC3dsirLo83rJPO_zCa6SIvw?si=4ika-RUKfIEMq1jD', 2000)" id="task-yt" class="bg-yellow-600 px-4 py-1 rounded-lg text-xs font-bold">Subscribe</button>
             </div>
         </div>
     </div>
 
-    <!-- 4. AIRDROP TAB -->
+    <!-- Airdrop Tab -->
     <div id="airdrop" class="tab-content text-center">
         <div class="mt-10">
             <div class="text-6xl mb-4">💎</div>
             <h2 class="text-3xl font-bold gold-text">RCAMEL Token</h2>
-            <p class="text-gray-400 mt-2 px-6">Airdrop calculation is based on your Profit per Hour and Tasks completed.</p>
-            
+            <p class="text-gray-400 mt-2 px-6">Airdrop points are being calculated...</p>
             <div class="mt-10 p-6 bg-yellow-600/10 border border-yellow-600/30 rounded-3xl mx-4">
                 <p class="text-sm">Listing Status</p>
                 <p class="text-xl font-bold text-yellow-500">Coming Soon on TON</p>
@@ -143,153 +142,190 @@
     <!-- Navigation Bar -->
     <div class="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-md border-t border-yellow-900/50 flex justify-around py-3">
         <button onclick="showTab('home')" class="nav-btn active flex flex-col items-center">
-            <i class="fas fa-hand-pointer text-xl"></i>
-            <span class="text-[10px] mt-1">Tap</span>
+            <i class="fas fa-hand-pointer text-xl"></i><span class="text-[10px] mt-1">Tap</span>
         </button>
         <button onclick="showTab('mine')" class="nav-btn flex flex-col items-center text-gray-500">
-            <i class="fas fa-pickaxe text-xl"></i>
-            <span class="text-[10px] mt-1">Mine</span>
+            <i class="fas fa-pickaxe text-xl"></i><span class="text-[10px] mt-1">Mine</span>
         </button>
         <button onclick="showTab('tasks')" class="nav-btn flex flex-col items-center text-gray-500">
-            <i class="fas fa-tasks text-xl"></i>
-            <span class="text-[10px] mt-1">Tasks</span>
+            <i class="fas fa-tasks text-xl"></i><span class="text-[10px] mt-1">Tasks</span>
         </button>
         <button onclick="showTab('airdrop')" class="nav-btn flex flex-col items-center text-gray-500">
-            <i class="fas fa-parachute-box text-xl"></i>
-            <span class="text-[10px] mt-1">Airdrop</span>
+            <i class="fas fa-parachute-box text-xl"></i><span class="text-[10px] mt-1">Airdrop</span>
         </button>
     </div>
 
     <script>
-        // Game State
-        let balance = 0;
-        let pph = 0;
-        let energy = 1000;
-        const maxEnergy = 1000;
+        // --- Game State & Data Persistence ---
+        let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
+        let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
+        let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
         let multitap = 1;
+        let completedTasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
 
-        const ranks = [
-            {name: "Nomad", min: 0},
-            {name: "Merchant", min: 10000},
-            {name: "Trader", min: 50000},
-            {name: "Millionaire", min: 1000000},
-            {name: "Rich Camel Legend", min: 10000000}
-        ];
-
+        const maxEnergy = 1000;
         const upgrades = [
-            { id: 1, name: "Camel Milk Farm", cost: 500, pphBoost: 50, icon: "🥛", level: 0 },
-            { id: 2, name: "Desert Caravan", cost: 2000, pphBoost: 250, icon: "🚚", level: 0 },
-            { id: 3, name: "Oasis Resort", cost: 10000, pphBoost: 1200, icon: "🌴", level: 0 },
-            { id: 4, name: "Gold Mine", cost: 50000, pphBoost: 5500, icon: "⛏️", level: 0 },
-            { id: 5, name: "Crypto Exchange", cost: 250000, pphBoost: 20000, icon: "💹", level: 0 }
+            { id: 1, name: "Camel Milk Farm", cost: 500, pphBoost: 50, icon: "🥛" },
+            { id: 2, name: "Desert Caravan", cost: 2000, pphBoost: 250, icon: "🚚" },
+            { id: 3, name: "Oasis Resort", cost: 10000, pphBoost: 1200, icon: "🌴" },
+            { id: 4, name: "Gold Mine", cost: 50000, pphBoost: 5500, icon: "⛏️" },
+            { id: 5, name: "Crypto Exchange", cost: 250000, pphBoost: 20000, icon: "💹" }
         ];
 
-        // Elements
+        // Load upgrade levels from storage
+        let upgradeLevels = JSON.parse(localStorage.getItem('rc_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
+
+        function saveData() {
+            localStorage.setItem('rc_balance', balance);
+            localStorage.setItem('rc_pph', pph);
+            localStorage.setItem('rc_energy', energy);
+            localStorage.setItem('rc_levels', JSON.stringify(upgradeLevels));
+            localStorage.setItem('rc_tasks', JSON.stringify(completedTasks));
+        }
+
+        // --- Ad System (GigaPub) ---
+        function showAutoAd() {
+            if (typeof window.showGiga === 'function') {
+                window.showGiga()
+                .then(() => {
+                    balance += 1000; // Bonus for watching auto ad
+                    updateUI();
+                    console.log("Ad Watched: +1000 Bonus");
+                })
+                .catch(e => console.error("Ad failed"));
+            }
+        }
+
+        // Show Ad every 2 minutes (120,000 ms)
+        setInterval(showAutoAd, 120000);
+
+        // --- UI Updates ---
         const balanceEl = document.getElementById('balance');
         const energyEl = document.getElementById('energy');
         const energyBar = document.getElementById('energy-bar');
         const pphEl = document.getElementById('pph-display');
-        const tapTarget = document.getElementById('tap-target');
 
-        // Tapping Logic
-        tapTarget.addEventListener('click', (e) => {
+        function updateUI() {
+            balanceEl.innerText = Math.floor(balance).toLocaleString();
+            pphEl.innerText = `+${pph.toLocaleString()}/hr`;
+            energyEl.innerText = Math.floor(energy);
+            energyBar.style.width = (energy / maxEnergy * 100) + '%';
+            updateRank();
+            saveData();
+        }
+
+        function updateRank() {
+            const ranks = ["Nomad", "Merchant", "Trader", "Millionaire", "Legend"];
+            let rIdx = 0;
+            if (balance > 1000000) rIdx = 4;
+            else if (balance > 500000) rIdx = 3;
+            else if (balance > 100000) rIdx = 2;
+            else if (balance > 10000) rIdx = 1;
+            document.getElementById('rank-name').innerText = ranks[rIdx];
+        }
+
+        // --- Tapping Logic ---
+        document.getElementById('tap-target').addEventListener('click', (e) => {
             if (energy >= multitap) {
-                updateBalance(multitap);
-                updateEnergy(-multitap);
+                balance += multitap;
+                energy -= multitap;
+                updateUI();
                 showFloatingText(e.clientX, e.clientY, `+${multitap}`);
             }
         });
 
-        function updateBalance(amount) {
-            balance += amount;
-            balanceEl.innerText = Math.floor(balance).toLocaleString();
-            updateRank();
-        }
-
-        function updateEnergy(amount) {
-            energy += amount;
-            if (energy > maxEnergy) energy = maxEnergy;
-            energyEl.innerText = energy;
-            energyBar.style.width = (energy / maxEnergy * 100) + '%';
-        }
-
-        function updateRank() {
-            let currentRank = ranks[0];
-            for (let r of ranks) {
-                if (balance >= r.min) currentRank = r;
-            }
-            document.getElementById('rank-name').innerText = currentRank.name;
-        }
-
-        // Floating Animation
         function showFloatingText(x, y, text) {
             const el = document.createElement('div');
             el.className = 'floating-coin';
-            el.style.left = `${x}px`;
-            el.style.top = `${y}px`;
+            el.style.left = `${x}px`; el.style.top = `${y}px`;
             el.innerText = text;
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 800);
         }
 
-        // Passive Income Logic (Mining)
+        // --- Upgrade System ---
         function initUpgrades() {
             const list = document.getElementById('upgrade-list');
             list.innerHTML = '';
             upgrades.forEach(u => {
+                let currentLevel = upgradeLevels[u.id];
+                let currentCost = Math.floor(u.cost * Math.pow(1.5, currentLevel));
                 const card = document.createElement('div');
                 card.className = "bg-gray-900 p-4 rounded-2xl flex justify-between items-center border border-gray-800 shadow-lg";
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
                         <span class="text-3xl">${u.icon}</span>
                         <div>
-                            <p class="font-bold">${u.name}</p>
-                            <p class="text-xs text-gray-400">Lv ${u.level} • +${u.pphBoost}/hr</p>
-                            <p class="text-sm font-bold text-yellow-500">💰 ${u.cost.toLocaleString()}</p>
+                            <p class="font-bold text-sm">${u.name}</p>
+                            <p class="text-[10px] text-gray-400">Lv ${currentLevel} • +${u.pphBoost}/hr</p>
+                            <p class="text-sm font-bold text-yellow-500">💰 ${currentCost.toLocaleString()}</p>
                         </div>
                     </div>
-                    <button onclick="buyUpgrade(${u.id})" class="bg-yellow-600 hover:bg-yellow-500 px-4 py-2 rounded-xl text-sm font-bold transition">Upgrade</button>
+                    <button onclick="buyUpgrade(${u.id}, ${currentCost}, ${u.pphBoost})" class="bg-yellow-600 px-4 py-2 rounded-xl text-xs font-bold">Upgrade</button>
                 `;
                 list.appendChild(card);
             });
         }
 
-        window.buyUpgrade = (id) => {
-            const u = upgrades.find(up => up.id === id);
-            if (balance >= u.cost) {
-                balance -= u.cost;
-                pph += u.pphBoost;
-                u.level++;
-                u.cost = Math.floor(u.cost * 1.5);
-                updateBalance(0);
-                pphEl.innerText = `+${pph.toLocaleString()}/hr`;
+        window.buyUpgrade = (id, cost, boost) => {
+            if (balance >= cost) {
+                balance -= cost;
+                pph += boost;
+                upgradeLevels[id]++;
                 initUpgrades();
+                updateUI();
             } else {
-                alert("Not enough Rich Coins!");
+                alert("Not enough coins!");
             }
         };
 
-        // Tab System
+        // --- Tasks Logic ---
+        window.completeTask = (id, link, reward) => {
+            if (completedTasks.includes(id)) {
+                alert("Task already completed!");
+                return;
+            }
+            window.open(link, '_blank');
+            // Give reward after 5 seconds delay (simulating check)
+            setTimeout(() => {
+                balance += reward;
+                completedTasks.push(id);
+                document.getElementById(`task-${id}`).innerText = "✅ Done";
+                document.getElementById(`task-${id}`).classList.replace('bg-yellow-600', 'bg-green-600');
+                updateUI();
+                alert(`Task Reward: +${reward} RCAMEL`);
+            }, 5000);
+        };
+
+        function checkTasks() {
+            completedTasks.forEach(id => {
+                let btn = document.getElementById(`task-${id}`);
+                if(btn){
+                    btn.innerText = "✅ Done";
+                    btn.classList.replace('bg-yellow-600', 'bg-green-600');
+                }
+            });
+        }
+
+        // --- Tab Switching ---
         window.showTab = (tabId) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'text-yellow-500'));
-            
             document.getElementById(tabId).classList.add('active-tab');
             event.currentTarget.classList.add('active');
         };
 
-        // Game Loops
+        // --- Main Loops ---
         setInterval(() => {
-            // Passive Income every second
-            if (pph > 0) {
-                updateBalance(pph / 3600);
-            }
-            // Energy Refill
-            updateEnergy(2);
+            if (pph > 0) balance += (pph / 3600);
+            if (energy < maxEnergy) energy += 1;
+            updateUI();
         }, 1000);
 
-        // Initialize
+        // Initial Start
         initUpgrades();
+        checkTasks();
+        updateUI();
     </script>
 </body>
 </html>
