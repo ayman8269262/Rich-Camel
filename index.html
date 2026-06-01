@@ -42,10 +42,8 @@
         @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
         .nav-btn.active { color: #FFD700; border-top: 2px solid #FFD700; }
         
-        /* Custom Input Styling */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
-
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
@@ -137,9 +135,7 @@
             <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-16 h-16 mx-auto mb-4" alt="TON">
             <p class="text-gray-400 text-xs mb-4">Rate: 1000 Coins = 0.01 TON</p>
             
-            <div class="relative mb-6">
-                <input type="number" id="exchange-input" oninput="updateTonEstimate()" placeholder="Enter Coin Amount" class="w-full bg-black border border-gray-700 rounded-2xl py-4 px-4 text-center text-xl font-bold focus:outline-none focus:border-blue-500 transition">
-            </div>
+            <input type="number" id="exchange-input" oninput="updateTonEstimate()" placeholder="Enter Coin Amount" class="w-full bg-black border border-gray-700 rounded-2xl py-4 px-4 text-center text-xl font-bold mb-4 focus:outline-none">
 
             <div class="flex justify-between items-center px-4 mb-6">
                 <p class="text-sm text-gray-400">Receive:</p>
@@ -149,9 +145,8 @@
                 </div>
             </div>
 
-            <button onclick="confirmManualExchange()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-bold text-lg shadow-lg transition transform active:scale-95">Exchange Now</button>
-            
-            <p class="text-[10px] text-gray-500 mt-4 uppercase tracking-widest">Minimum Exchange: 1,000 Coins</p>
+            <button onclick="confirmManualExchange()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold text-lg transition active:scale-95">Exchange Now</button>
+            <p class="text-[10px] text-gray-500 mt-4">Minimum Exchange: 1,000 Coins</p>
         </div>
     </div>
 
@@ -188,7 +183,6 @@
     </div>
 
     <script>
-        // --- DATA PERSISTENCE (Preserving Old Data) ---
         let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
         let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
         let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
@@ -215,15 +209,18 @@
             localStorage.setItem('rc_tasks', JSON.stringify(completedTasks));
         }
 
-        // --- AD SYSTEM ---
+        // --- AD SYSTEM (300 COINS REWARD) ---
         function showAutoAd() {
             if (typeof window.showGiga === 'function') {
-                window.showGiga().then(() => { balance += 1000; updateUI(); }).catch(e => console.error("Ad fail"));
+                window.showGiga().then(() => { 
+                    balance += 300; // Reward changed to 300
+                    updateUI(); 
+                    console.log("Ad Watched: +300 Coins reward added.");
+                }).catch(e => console.error("Ad fail"));
             }
         }
-        setInterval(showAutoAd, 120000);
+        setInterval(showAutoAd, 120000); // Trigger every 2 mins
 
-        // --- UI UPDATES ---
         function updateUI() {
             document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
             document.getElementById('pph-display').innerText = `+${Math.floor(pph).toLocaleString()}/hr`;
@@ -237,38 +234,30 @@
             saveData();
         }
 
-        // --- MANUAL EXCHANGE LOGIC ---
         window.updateTonEstimate = () => {
             const coinInput = document.getElementById('exchange-input').value;
-            const estimateEl = document.getElementById('ton-estimate');
             if (coinInput >= 1000) {
-                const estimate = (coinInput / 1000) * 0.01;
-                estimateEl.innerText = estimate.toFixed(3);
+                document.getElementById('ton-estimate').innerText = ((coinInput / 1000) * 0.01).toFixed(3);
             } else {
-                estimateEl.innerText = "0.00";
+                document.getElementById('ton-estimate').innerText = "0.00";
             }
         };
 
         window.confirmManualExchange = () => {
             const amount = parseInt(document.getElementById('exchange-input').value);
-            if (isNaN(amount) || amount < 1000) {
-                alert("Minimum exchange is 1,000 Coins!");
-                return;
-            }
-            if (balance >= amount) {
+            if (amount >= 1000 && balance >= amount) {
                 const reward = (amount / 1000) * 0.01;
                 balance -= amount;
                 tonBalance += reward;
                 document.getElementById('exchange-input').value = "";
                 updateTonEstimate();
                 updateUI();
-                alert(`Exchanged ${amount.toLocaleString()} Coins for ${reward.toFixed(3)} TON!`);
+                alert(`Exchanged ${amount} Coins for ${reward.toFixed(3)} TON!`);
             } else {
-                alert("Insufficient Camel Coins!");
+                alert("Minimum exchange is 1,000 Coins!");
             }
         };
 
-        // --- TAPPING ---
         document.getElementById('tap-target').addEventListener('click', (e) => {
             if (energy >= multitap) {
                 balance += multitap;
@@ -283,7 +272,6 @@
             }
         });
 
-        // --- UPGRADES ---
         function initUpgrades() {
             const list = document.getElementById('upgrade-list');
             list.innerHTML = '';
@@ -309,7 +297,6 @@
             } else { alert("Not enough coins!"); }
         };
 
-        // --- TASKS ---
         window.completeTask = (id, link, reward) => {
             if (completedTasks.includes(id)) return alert("Already done!");
             window.open(link, '_blank');
@@ -321,7 +308,6 @@
             }, 5000);
         };
 
-        // --- TAB SWITCHING ---
         window.showTab = (tabId) => {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -329,7 +315,6 @@
             event.currentTarget.classList.add('active');
         };
 
-        // --- GAME LOOP ---
         setInterval(() => {
             if (pph > 0) balance += (pph / 3600);
             if (energy < maxEnergy) energy += 1;
