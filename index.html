@@ -104,18 +104,16 @@
     <div id="tasks" class="tab-content">
         <h2 class="text-xl font-bold mb-4 gold-text text-center uppercase">Missions</h2>
         <div class="space-y-3 px-2">
-            <!-- Telegram Task -->
             <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
                 <div class="flex items-center gap-3">
                     <i class="fab fa-telegram text-blue-400 text-2xl"></i>
                     <div class="text-left">
-                        <p class="font-bold text-sm">Join Rich Camel Channel</p>
+                        <p class="font-bold text-sm">Join Telegram Channel</p>
                         <p class="text-xs text-yellow-400">+2,000 RCAMEL</p>
                     </div>
                 </div>
                 <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-6 py-2 rounded-lg text-xs font-bold shadow-md">Join</button>
             </div>
-            <!-- YouTube Task -->
             <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
                 <div class="flex items-center gap-3">
                     <i class="fab fa-youtube text-red-500 text-2xl"></i>
@@ -125,6 +123,16 @@
                     </div>
                 </div>
                 <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-6 py-2 rounded-lg text-xs font-bold shadow-md">Subscribe</button>
+            </div>
+            
+            <!-- Referral Info for Airdrop logic -->
+            <div class="mt-6 p-4 bg-gray-900/80 rounded-2xl border border-blue-500/30">
+                <p class="text-sm font-bold text-blue-400 mb-2">Referral System</p>
+                <div class="flex justify-between text-xs mb-4">
+                    <span>Your Referrals:</span>
+                    <span class="font-bold text-white" id="referral-count">0</span>
+                </div>
+                <button onclick="copyRefLink()" class="w-full bg-blue-600 py-3 rounded-xl text-xs font-bold uppercase tracking-wider">Copy Referral Link</button>
             </div>
         </div>
     </div>
@@ -148,12 +156,28 @@
     </div>
 
     <!-- 5. AIRDROP TAB -->
-    <div id="airdrop" class="tab-content text-center pt-10">
-        <div class="text-6xl mb-4">💎</div>
-        <h2 class="text-3xl font-bold gold-text uppercase">Airdrop</h2>
-        <p class="text-gray-400 mt-4 px-6 text-sm">Listing on TON Blockchain Coming Soon.</p>
-        <div class="mt-10 p-6 bg-yellow-600/10 border border-yellow-600/30 rounded-3xl mx-4 text-xl font-bold text-yellow-500 uppercase">
-            Listing Soon
+    <div id="airdrop" class="tab-content text-center px-4">
+        <div class="mt-8">
+            <div class="text-6xl mb-4">💎</div>
+            <h2 class="text-3xl font-bold gold-text uppercase mb-4">Airdrop</h2>
+            
+            <!-- Requirement Box -->
+            <div class="bg-red-900/20 border border-red-500/30 p-4 rounded-2xl mb-4">
+                <p class="text-sm font-bold text-red-400 uppercase tracking-widest mb-1">Eligibility Requirement</p>
+                <p class="text-xs text-gray-300 leading-relaxed">To be eligible for the airdrop, you must have at least <span class="text-white font-bold">10 referrals</span>.</p>
+            </div>
+
+            <!-- Strategy Box -->
+            <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-2xl mb-6">
+                <p class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1">Snapshot Strategy</p>
+                <p class="text-xs text-gray-300 leading-relaxed">The more friends you invite, the more bonus coins you will receive! During the final snapshot before listing, rewards will be distributed based on your total referral count.</p>
+            </div>
+
+            <p class="text-gray-400 text-[10px] leading-relaxed mb-6">Withdrawals will be available after the official listing on the TON blockchain. Keep mining and referring!</p>
+
+            <div class="p-6 bg-yellow-600/10 border border-yellow-600/30 rounded-3xl text-xl font-bold text-yellow-500 uppercase">
+                Listing Soon
+            </div>
         </div>
     </div>
 
@@ -177,11 +201,12 @@
     </div>
 
     <script>
-        // --- GAME STATE ---
+        // --- DATA PERSISTENCE ---
         let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
         let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
         let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
         let tonBalance = parseFloat(localStorage.getItem('rc_ton_balance')) || 0;
+        let referrals = parseInt(localStorage.getItem('rc_referrals')) || 0; // Referral Tracking
         let lastTime = parseInt(localStorage.getItem('rc_last_time')) || Date.now();
         let completedTasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
         let upgradeLevels = JSON.parse(localStorage.getItem('rc_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
@@ -196,18 +221,18 @@
             { id: 5, name: "Crypto Exchange", cost: 250000, pphBoost: 20000, icon: "💹" }
         ];
 
-        // --- DATA PERSISTENCE ---
         function saveData() {
             localStorage.setItem('rc_balance', balance.toString());
             localStorage.setItem('rc_pph', pph.toString());
             localStorage.setItem('rc_energy', energy.toString());
             localStorage.setItem('rc_ton_balance', tonBalance.toString());
+            localStorage.setItem('rc_referrals', referrals.toString());
             localStorage.setItem('rc_levels', JSON.stringify(upgradeLevels));
             localStorage.setItem('rc_tasks', JSON.stringify(completedTasks));
             localStorage.setItem('rc_last_time', Date.now().toString());
         }
 
-        // --- ACTIVE & OFFLINE EARNINGS ---
+        // --- OFFLINE CALCULATIONS ---
         function applyOfflineEarnings() {
             const now = Date.now();
             const elapsed = Math.floor((now - lastTime) / 1000);
@@ -233,31 +258,36 @@
             document.getElementById('ton-balance-display').innerText = tonBalance.toFixed(3);
             document.getElementById('energy').innerText = Math.floor(energy);
             document.getElementById('energy-bar').style.width = (energy / maxEnergy * 100) + '%';
+            document.getElementById('referral-count').innerText = referrals;
             saveData();
         }
 
-        // --- UPDATED TASK SYSTEM (Fix for Balance addition) ---
-        let taskStatus = { tg: 'idle', yt: 'idle' };
-
+        // --- TASK SYSTEM ---
+        let tState = { tg: 'idle', yt: 'idle' };
         window.handleTask = (id, link, reward) => {
             const btn = document.getElementById(`task-${id}`);
             if (completedTasks.includes(id)) return;
-
-            if (taskStatus[id] === 'idle') {
+            if (tState[id] === 'idle') {
                 window.open(link, '_blank');
-                taskStatus[id] = 'checking';
+                tState[id] = 'checking';
                 btn.innerText = "Claim Reward";
                 btn.classList.replace('bg-yellow-600', 'bg-blue-600');
-            } else if (taskStatus[id] === 'checking') {
-                balance += reward;
-                completedTasks.push(id);
-                btn.innerText = "✅ Done";
-                btn.disabled = true;
+            } else {
+                balance += reward; completedTasks.push(id);
+                btn.innerText = "✅ Done"; btn.disabled = true;
                 btn.classList.replace('bg-blue-600', 'bg-green-600');
                 updateUI();
-                alert(`Congratulations! ${reward} Coins added to your balance.`);
-                saveData();
             }
+        };
+
+        // --- REFERRAL LINK (Mock) ---
+        window.copyRefLink = () => {
+            const dummyLink = "https://t.me/RichCamelBot?start=user" + Math.floor(Math.random() * 10000);
+            navigator.clipboard.writeText(dummyLink);
+            alert("Referral link copied! Share it to gain 10 referrals for airdrop eligibility.");
+            // For demo purposes, we increase referrals by 1 every time link is copied
+            referrals++;
+            updateUI();
         };
 
         // --- MINING SYSTEM ---
@@ -306,7 +336,7 @@
                 document.getElementById('exchange-input').value = "";
                 updateUI();
                 alert("Exchange Successful!");
-            } else { alert("Minimum 1,000 coins required!"); }
+            } else { alert("Min 1,000 coins required!"); }
         };
 
         // --- TAPPING ---
