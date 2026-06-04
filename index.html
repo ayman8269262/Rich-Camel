@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rich Camel 🐫 - V2 Pro</title>
+    <title>Rich Camel 🐫 - Pro V2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -45,7 +45,7 @@
         #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader { width: 40px; height: 40px; border: 4px solid #333; border-top-color: #FFD700; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .puzzle-grid { display: grid; gap: 4px; margin: 10px auto; background: #2d1b0d; padding: 10px; border-radius: 10px; width: fit-content; }
+        .puzzle-grid { display: grid; gap: 4px; margin: 10px auto; background: #2d1b0d; padding: 10px; border-radius: 10px; width: fit-content; border: 1px solid #FFD700; }
         .puzzle-tile { width: 50px; height: 50px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .tile-empty { background: rgba(255,255,255,0.05); color: transparent; }
         ::-webkit-scrollbar { width: 0px; }
@@ -60,13 +60,13 @@
         <div class="loader mt-4"></div>
     </div>
 
-    <!-- Top UI -->
+    <!-- Top UI (3 Balances) -->
     <div class="p-3 space-y-2">
         <div class="glass-card p-2 flex flex-col items-center">
             <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">RCAMEL Balance</p>
             <div class="flex items-center gap-2">
                 <img src="https://cdn-icons-png.flaticon.com/512/272/272525.png" class="w-6 h-6">
-                <h1 class="text-2xl font-extrabold" id="balance">0.0000</h1>
+                <h1 class="text-2xl font-extrabold" id="balance">2.0000</h1>
             </div>
         </div>
         <div class="flex gap-2">
@@ -85,13 +85,13 @@
                 </div>
             </div>
         </div>
-        <!-- Center PPH Display -->
-        <div class="flex justify-center px-2 text-[9px] font-bold uppercase tracking-widest">
-            <span class="text-green-400">Profit: <span id="pph-display">0</span>/hr</span>
+        <div class="flex justify-center px-2 text-[9px] font-bold uppercase">
+            <span class="text-green-400">PPH: <span id="pph-display">0</span>/hr</span>
         </div>
     </div>
 
     <main class="px-4">
+        <!-- 1. HOME -->
         <div id="home" class="tab-content active-tab text-center">
             <div class="flex flex-col items-center justify-center pt-4">
                 <button onclick="handleTap()" class="transition-transform active:scale-90" id="tap-btn">
@@ -99,75 +99,81 @@
                         <span class="text-[100px]">🐫</span>
                     </div>
                 </button>
-                <div class="mt-6 px-4 text-center">
-                    <p class="text-[11px] font-bold text-yellow-500 uppercase">Hourly Tap Reward</p>
+                <div class="mt-6 px-4">
+                    <p class="text-[11px] font-bold text-yellow-500 uppercase">Hourly Tap Reward (+0.1)</p>
                     <p class="text-[10px] text-gray-400 mt-1" id="tap-timer">Available Now</p>
                 </div>
             </div>
         </div>
 
+        <!-- 2. MINE -->
         <div id="mine" class="tab-content px-2">
             <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Projects</h2>
             <div id="upgrade-list" class="space-y-2"></div>
         </div>
 
+        <!-- 3. PUZZLE -->
         <div id="puzzle" class="tab-content text-center px-2">
             <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Hard Puzzle</h2>
-            <p class="text-[10px] text-gray-400">Attempts: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
+            <p class="text-[10px] text-gray-500">Attempts: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
             <div class="glass-card p-3 my-4">
                 <div id="puzzle-board" class="puzzle-grid"></div>
                 <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 uppercase shadow-lg">Start Game</button>
             </div>
-            <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest">Reward: $2.00 USDT</p>
+            <p class="text-[10px] text-green-400 font-bold uppercase">Reward: $2.00 USDT</p>
         </div>
 
+        <!-- 4. TASKS -->
         <div id="tasks" class="tab-content px-2">
-            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Missions</h2>
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase text-center">Missions</h2>
             <div class="space-y-2">
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram</p></div>
-                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 0.1)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">JOIN</button>
+                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 0.01)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">JOIN</button>
                 </div>
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">YouTube</p></div>
-                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 0.1)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">SUBSCRIBE</button>
+                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 0.01)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">SUBSCRIBE</button>
                 </div>
             </div>
         </div>
 
+        <!-- 5. WITHDRAW -->
         <div id="withdraw" class="tab-content text-center px-4">
             <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4">Withdraw USDT</h2>
             <div class="glass-card p-5 space-y-4">
                 <input type="text" id="w-addr" placeholder="USDT BEP-20 Address" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-xs outline-none">
                 <input type="number" id="w-amt" placeholder="Min $20" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-sm outline-none">
-                <button onclick="submitWithdraw()" class="w-full bg-green-600 py-3 rounded-xl font-bold text-[10px] uppercase">Withdraw</button>
+                <button onclick="submitWithdraw()" class="w-full bg-green-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Submit Request</button>
                 <p class="text-[8px] text-gray-500 uppercase">Requirement: 10 Referrals</p>
             </div>
         </div>
 
+        <!-- 6. SWAP -->
         <div id="exchange" class="tab-content text-center px-4">
-            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4">TON Swap</h2>
+            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Swap to TON</h2>
             <div class="glass-card p-6">
                 <input type="number" id="ex-input" oninput="updateEx()" placeholder="RCAMEL" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 text-center text-lg font-bold mb-4 outline-none">
                 <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Get:</span><span class="text-blue-400"><span id="ex-res">0.000</span> TON</span></div>
-                <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase">Swap</button>
-                <p class="text-[8px] text-gray-500 mt-2">1 RCAMEL = 0.65 TON (Min 1)</p>
+                <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase">Swap Now</button>
+                <p class="text-[8px] text-gray-500 mt-2">1 RCAMEL = 0.65 TON</p>
             </div>
         </div>
 
+        <!-- 7. AIRDROP -->
         <div id="airdrop" class="tab-content text-center px-6">
             <div class="pt-6">
                 <div class="text-6xl mb-4">💎</div>
-                <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-4">Airdrop</h2>
+                <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-4 tracking-widest">Airdrop</h2>
                 <div class="glass-card p-4 text-[9px] text-left uppercase leading-relaxed">
-                    <p class="text-red-400 font-bold underline mb-1">ELIGIBILITY</p>
-                    <p>Minimum 10 referrals required for Snap eligibility.</p>
+                    <p class="text-red-400 font-bold mb-1 underline">ELIGIBILITY</p>
+                    <p>Minimum 10 referrals required for Snap eligibility. Listing Soon.</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Nav Bar -->
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
         <button onclick="nav('home')" class="nav-btn active"><i class="fas fa-home"></i><span>Home</span></button>
         <button onclick="nav('mine')" class="nav-btn"><i class="fas fa-pickaxe"></i><span>Mine</span></button>
@@ -193,7 +199,7 @@
         ];
 
         let state = {
-            balance: 0, pph: 0, energy: 1000, ton: 0, usd: 0,
+            balance: 2, pph: 0, energy: 1000, ton: 0, usd: 0,
             lastTime: Date.now(), lastTap: 0, levels: {}, tasks: [],
             pTries: 3, pDate: "", refs: 0
         };
@@ -209,12 +215,21 @@
 
         function loadData() {
             try {
+                // V2 Migration Logic + Welcome Gift
                 if (!localStorage.getItem('rc_v2_migrated')) {
                     let oldBal = parseFloat(localStorage.getItem('rc_balance')) || 0;
-                    localStorage.setItem('rc_balance', (oldBal / 1000) * 0.00001);
+                    let migratedBal = (oldBal / 1000) * 0.00001;
+                    localStorage.setItem('rc_balance', migratedBal + 2); // Give 2 RCAMEL during migration
                     localStorage.setItem('rc_v2_migrated', 'true');
                 }
-                state.balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
+                
+                // If it's a completely new user
+                if (!localStorage.getItem('rc_balance')) {
+                    state.balance = 2;
+                } else {
+                    state.balance = parseFloat(localStorage.getItem('rc_balance'));
+                }
+
                 state.ton = parseFloat(localStorage.getItem('rc_ton_balance')) || 0;
                 state.usd = parseFloat(localStorage.getItem('rc_usd_balance')) || 0;
                 state.lastTime = parseInt(localStorage.getItem('rc_last_time')) || Date.now();
@@ -242,7 +257,7 @@
         }
 
         function updateUI() {
-            document.getElementById('balance').innerText = state.balance.toFixed(5);
+            document.getElementById('balance').innerText = state.balance.toFixed(4);
             document.getElementById('ton-display').innerText = state.ton.toFixed(3);
             document.getElementById('usd-display').innerText = "$" + state.usd.toFixed(2);
             document.getElementById('pph-display').innerText = state.pph.toFixed(2);
@@ -277,7 +292,7 @@
                 let lv = state.levels[u.id] || 0, c = (u.cost * Math.pow(1.8, lv)).toFixed(2);
                 const d = document.createElement('div');
                 d.className = "glass-card p-3 flex justify-between items-center";
-                d.innerHTML = `<div><p class="text-xs font-bold">${u.icon} ${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c}</p></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold">BUY</button>`;
+                d.innerHTML = `<div><p class="text-xs font-bold">${u.icon} ${u.name}</p><p class="text-[8px] text-gray-400">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c}</p></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold">BUY</button>`;
                 l.appendChild(d);
             });
         }
@@ -287,7 +302,7 @@
         function startPuzzle() {
             const today = new Date().toLocaleDateString();
             if(state.pDate !== today) { state.pTries = 3; state.pDate = today; }
-            if(state.pTries <= 0) return alert("No more tries!");
+            if(state.pTries <= 0) return alert("Daily limit reached!");
             if(pActive) return;
             state.pTries--; pActive = true;
             pSize = (state.usd > 4) ? (state.usd > 10 ? 5 : 4) : 3;
@@ -313,13 +328,13 @@
             let empty=pGrid.indexOf(null), r=Math.floor(i/pSize), c=i%pSize, er=Math.floor(empty/pSize), ec=empty%pSize;
             if(Math.abs(r-er)+Math.abs(c-ec)===1) { playSfx(); [pGrid[i], pGrid[empty]]=[pGrid[empty], pGrid[i]]; renderP(); if(pGrid.slice(0,-1).every((v,idx)=>v===idx+1)) stopPuzzle(true); }
         }
-        function stopPuzzle(win) { pActive=false; clearInterval(pTimer); document.getElementById('p-start-btn').style.display='inline-block'; if(win){ state.usd+=2; alert("Win! $2"); } updateUI(); save(); }
+        function stopPuzzle(win) { pActive=false; clearInterval(pTimer); document.getElementById('p-start-btn').style.display='inline-block'; if(win){ state.usd+=2; alert("Winner! $2.00 USDT added!"); } updateUI(); save(); }
 
         window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
         window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1?(v*0.65).toFixed(3):"0.000"); };
         window.confirmSwap = () => { let v = parseFloat(document.getElementById('ex-input').value); if(v>=1 && state.balance >= v) { playSfx(); state.ton+=(v*0.65); state.balance-=v; updateUI(); save(); alert("Swapped!"); } };
         window.handleTask = (id,l,r) => { playSfx(); window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { state.balance+=r; state.tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); save(); } };
-        window.submitWithdraw = () => { let v = parseFloat(document.getElementById('w-amt').value); if(v < 20 || state.usd < v) return alert("Min $20!"); if(state.refs < 10) return alert("10 Refs Required!"); state.usd-=v; updateUI(); save(); alert("Requested!"); };
+        window.submitWithdraw = () => { let v = parseFloat(document.getElementById('w-amt').value); if(v < 20 || state.usd < v) return alert("Min $20!"); if(state.refs < 10) return alert("10 Referrals Required!"); state.usd-=v; updateUI(); save(); alert("Requested!"); };
 
         window.addEventListener('load', () => {
             loadData();
@@ -334,7 +349,6 @@
             if(state.pph > 0) state.balance += (state.pph / 3600);
             updateUI(); save();
         }, 1000);
-        setInterval(() => { if (typeof window.showGiga === 'function') window.showGiga().then(()=>{ state.balance+=0.05; updateUI(); save(); }); }, 120000);
     </script>
 </body>
 </html>
