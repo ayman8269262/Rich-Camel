@@ -1,1 +1,363 @@
-new update loading 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rich Camel 🐫 - Tap to Earn</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Gigapub Ad Script -->
+    <script data-project-id="6845">
+      !function(){
+        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+        function l(){
+          sc=document.createElement('script');
+          sc.async=true;
+          sc.src=d[i]+'/script?id='+p;
+          clearTimeout(t);
+          t=setTimeout(function(){
+            sc.onload=sc.onerror=null;
+            sc.src='';
+            if(++i<d.length)l();
+          },15000);
+          sc.onload=function(){clearTimeout(t)};
+          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+          document.head.appendChild(sc);
+        }
+        l();
+      }();
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #2d1b0d, #000000); color: white; overflow: hidden; height: 100vh; user-select: none; }
+        .gold-text { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tab-content { display: none; height: calc(100vh - 160px); overflow-y: auto; padding-bottom: 80px; }
+        .active-tab { display: block; }
+        .camel-btn { transition: transform 0.1s ease; touch-action: manipulation; }
+        .camel-btn:active { transform: scale(0.92); }
+        .floating-coin { position: absolute; animation: floatUp 0.8s ease-out forwards; pointer-events: none; font-weight: bold; color: #FFD700; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-120px); opacity: 0; } }
+        .nav-btn.active { color: #FFD700; border-top: 2px solid #FFD700; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="p-4">
+
+    <!-- Header Stats -->
+    <div class="flex justify-between items-center mb-4 bg-gray-900/50 p-3 rounded-2xl border border-yellow-700/30">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center text-xl">🐫</div>
+            <div>
+                <p class="text-xs text-gray-400">Profit per hour</p>
+                <p class="text-sm font-bold text-green-400" id="pph-display">+0</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <div class="flex items-center gap-1 justify-end">
+                <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-4 h-4" alt="TON">
+                <p class="text-xs font-bold text-blue-400" id="ton-balance-display">0.00</p>
+            </div>
+            <p class="text-[10px] text-yellow-500 font-bold" id="rank-name">Nomad</p>
+        </div>
+    </div>
+
+    <!-- Main Balance -->
+    <div class="text-center my-6">
+        <div class="flex justify-center items-center gap-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/272/272525.png" class="w-12 h-12" alt="coin">
+            <h1 class="text-5xl font-extrabold" id="balance">0</h1>
+        </div>
+    </div>
+
+    <!-- 1. HOME TAB -->
+    <div id="home" class="tab-content active-tab">
+        <div class="flex flex-col items-center justify-center h-full relative">
+            <button class="camel-btn relative" id="tap-target">
+                <div class="w-64 h-64 bg-yellow-500/20 rounded-full flex items-center justify-center border-8 border-yellow-600/50 shadow-[0_0_50px_rgba(218,165,32,0.3)]">
+                    <span class="text-[120px]">🐫</span>
+                </div>
+            </button>
+            <div class="w-full mt-12 px-6">
+                <div class="flex justify-between mb-2 text-sm font-bold">
+                    <span>⚡ <span id="energy">1000</span>/1000</span>
+                    <span id="level-txt">Level 1/8</span>
+                </div>
+                <div class="w-full h-4 bg-gray-800 rounded-full border border-gray-700">
+                    <div id="energy-bar" class="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MINE TAB -->
+    <div id="mine" class="tab-content">
+        <h2 class="text-xl font-bold mb-4 gold-text text-center uppercase">Mining Projects</h2>
+        <div class="grid grid-cols-1 gap-3 px-2" id="upgrade-list"></div>
+    </div>
+
+    <!-- 3. TASKS TAB -->
+    <div id="tasks" class="tab-content">
+        <h2 class="text-xl font-bold mb-4 gold-text text-center uppercase">Missions</h2>
+        <div class="space-y-3 px-2">
+            <!-- Telegram Task -->
+            <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-telegram text-blue-400 text-2xl"></i>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Join Telegram Channel</p>
+                        <p class="text-xs text-yellow-400">+2,000 RCAMEL</p>
+                    </div>
+                </div>
+                <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-6 py-2 rounded-lg text-xs font-bold shadow-md">Join</button>
+            </div>
+            <!-- YouTube Task -->
+            <div class="bg-gray-900 p-4 rounded-xl flex justify-between items-center border border-gray-800">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-youtube text-red-500 text-2xl"></i>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Subscribe YouTube</p>
+                        <p class="text-xs text-yellow-400">+2,000 RCAMEL</p>
+                    </div>
+                </div>
+                <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-6 py-2 rounded-lg text-xs font-bold shadow-md">Subscribe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. EXCHANGE TAB -->
+    <div id="exchange" class="tab-content text-center">
+        <h2 class="text-2xl font-bold gold-text mb-6 uppercase">Exchange</h2>
+        <div class="bg-gray-900 p-6 rounded-3xl border border-yellow-700/30 mx-2 shadow-2xl">
+            <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-16 h-16 mx-auto mb-4" alt="TON">
+            <p class="text-gray-400 text-xs mb-4">Rate: 1000 Coins = 0.01 TON</p>
+            <input type="number" id="exchange-input" oninput="updateTonEstimate()" placeholder="Enter Coin Amount" class="w-full bg-black border border-gray-700 rounded-2xl py-4 px-4 text-center text-xl font-bold mb-4 focus:outline-none">
+            <div class="flex justify-between items-center px-4 mb-6">
+                <p class="text-sm text-gray-400">Receive:</p>
+                <div class="flex items-center gap-2">
+                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-5 h-5" alt="TON">
+                    <p class="text-xl font-bold text-blue-400" id="ton-estimate">0.00</p>
+                </div>
+            </div>
+            <button onclick="confirmManualExchange()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold text-lg transition active:scale-95">Exchange Now</button>
+        </div>
+    </div>
+
+    <!-- 5. AIRDROP TAB -->
+    <div id="airdrop" class="tab-content text-center px-4">
+        <div class="mt-8">
+            <div class="text-6xl mb-4">💎</div>
+            <h2 class="text-3xl font-bold gold-text uppercase mb-4">Airdrop</h2>
+            
+            <!-- Requirement Box -->
+            <div class="bg-red-900/20 border border-red-500/30 p-4 rounded-2xl mb-4 text-left">
+                <p class="text-sm font-bold text-red-400 uppercase tracking-widest mb-1 text-center">Eligibility Requirement</p>
+                <p class="text-xs text-gray-300 leading-relaxed text-center">To be eligible for the airdrop, you must have at least <span class="text-white font-bold">10 referrals</span>.</p>
+            </div>
+
+            <!-- Strategy Box -->
+            <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-2xl mb-6 text-left">
+                <p class="text-sm font-bold text-blue-400 uppercase tracking-widest mb-1 text-center">Snapshot Strategy</p>
+                <p class="text-xs text-gray-300 leading-relaxed text-center">The more friends you invite, the more bonus coins you will receive! During the final snapshot before listing, rewards will be distributed based on your total referral count.</p>
+            </div>
+
+            <p class="text-gray-400 text-[10px] leading-relaxed mb-6">Withdrawals will be available after the official listing on the TON blockchain. Keep mining and referring!</p>
+
+            <div class="p-6 bg-yellow-600/10 border border-yellow-600/30 rounded-3xl text-xl font-bold text-yellow-500 uppercase">
+                Listing Soon
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-md border-t border-yellow-900/30 flex justify-around py-3 z-50">
+        <button onclick="showTab('home')" class="nav-btn active flex flex-col items-center">
+            <i class="fas fa-hand-pointer text-xl"></i><span class="text-[10px] mt-1">Tap</span>
+        </button>
+        <button onclick="showTab('mine')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-pickaxe text-xl"></i><span class="text-[10px] mt-1">Mine</span>
+        </button>
+        <button onclick="showTab('tasks')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-tasks text-xl"></i><span class="text-[10px] mt-1">Tasks</span>
+        </button>
+        <button onclick="showTab('exchange')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-exchange-alt text-xl"></i><span class="text-[10px] mt-1">Exchange</span>
+        </button>
+        <button onclick="showTab('airdrop')" class="nav-btn flex flex-col items-center text-gray-500">
+            <i class="fas fa-parachute-box text-xl"></i><span class="text-[10px] mt-1">Airdrop</span>
+        </button>
+    </div>
+
+    <script>
+        // --- DATA PERSISTENCE ---
+        let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
+        let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
+        let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
+        let tonBalance = parseFloat(localStorage.getItem('rc_ton_balance')) || 0;
+        let lastTime = parseInt(localStorage.getItem('rc_last_time')) || Date.now();
+        let completedTasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
+        let upgradeLevels = JSON.parse(localStorage.getItem('rc_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
+
+        const maxEnergy = 1000;
+        const multitap = 1;
+        const upgrades = [
+            { id: 1, name: "Camel Milk Farm", cost: 500, pphBoost: 50, icon: "🥛" },
+            { id: 2, name: "Desert Caravan", cost: 2000, pphBoost: 250, icon: "🚚" },
+            { id: 3, name: "Oasis Resort", cost: 10000, pphBoost: 1200, icon: "🌴" },
+            { id: 4, name: "Gold Mine", cost: 50000, pphBoost: 5500, icon: "⛏️" },
+            { id: 5, name: "Crypto Exchange", cost: 250000, pphBoost: 20000, icon: "💹" }
+        ];
+
+        function saveData() {
+            localStorage.setItem('rc_balance', balance.toString());
+            localStorage.setItem('rc_pph', pph.toString());
+            localStorage.setItem('rc_energy', energy.toString());
+            localStorage.setItem('rc_ton_balance', tonBalance.toString());
+            localStorage.setItem('rc_levels', JSON.stringify(upgradeLevels));
+            localStorage.setItem('rc_tasks', JSON.stringify(completedTasks));
+            localStorage.setItem('rc_last_time', Date.now().toString());
+        }
+
+        // --- OFFLINE & PASSIVE CALCULATIONS ---
+        function applyOfflineEarnings() {
+            const now = Date.now();
+            const elapsed = Math.floor((now - lastTime) / 1000);
+            if (elapsed > 0) {
+                balance += (pph / 3600) * elapsed;
+                energy = Math.min(maxEnergy, energy + elapsed);
+            }
+            lastTime = now;
+            updateUI();
+        }
+
+        // --- AD REWARD (300 Coins) ---
+        function showAutoAd() {
+            if (typeof window.showGiga === 'function') {
+                window.showGiga().then(() => { balance += 300; updateUI(); }).catch(e => console.log("Ad Fail"));
+            }
+        }
+        setInterval(showAutoAd, 120000);
+
+        function updateUI() {
+            document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
+            document.getElementById('pph-display').innerText = `+${Math.floor(pph).toLocaleString()}/hr`;
+            document.getElementById('ton-balance-display').innerText = tonBalance.toFixed(3);
+            document.getElementById('energy').innerText = Math.floor(energy);
+            document.getElementById('energy-bar').style.width = (energy / maxEnergy * 100) + '%';
+            saveData();
+        }
+
+        // --- TASK SYSTEM ---
+        let tState = { tg: 'idle', yt: 'idle' };
+        window.handleTask = (id, link, reward) => {
+            const btn = document.getElementById(`task-${id}`);
+            if (completedTasks.includes(id)) return;
+            if (tState[id] === 'idle') {
+                window.open(link, '_blank');
+                tState[id] = 'checking';
+                btn.innerText = "Claim Reward";
+                btn.classList.replace('bg-yellow-600', 'bg-blue-600');
+            } else {
+                balance += reward; completedTasks.push(id);
+                btn.innerText = "✅ Done"; btn.disabled = true;
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+                updateUI();
+            }
+        };
+
+        // --- MINING SYSTEM ---
+        function initUpgrades() {
+            const list = document.getElementById('upgrade-list');
+            if(!list) return;
+            list.innerHTML = '';
+            upgrades.forEach(u => {
+                let lvl = upgradeLevels[u.id] || 0;
+                let cost = Math.floor(u.cost * Math.pow(1.5, lvl));
+                const card = document.createElement('div');
+                card.className = "bg-gray-900 p-4 rounded-2xl flex justify-between items-center border border-gray-800 shadow-lg mb-2 mx-2";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">${u.icon}</span>
+                        <div>
+                            <p class="font-bold text-sm">${u.name}</p>
+                            <p class="text-[10px] text-gray-400">Lv ${lvl} • +${u.pphBoost}/hr</p>
+                            <p class="text-sm font-bold text-yellow-500">💰 ${cost.toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <button onclick="buyUpgrade(${u.id}, ${cost}, ${u.pphBoost})" class="bg-yellow-600 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-90">Upgrade</button>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        window.buyUpgrade = (id, cost, boost) => {
+            if (balance >= cost) {
+                balance -= cost; pph += boost; upgradeLevels[id]++;
+                initUpgrades(); updateUI();
+            } else { alert("Not enough coins!"); }
+        };
+
+        // --- EXCHANGE ---
+        window.updateTonEstimate = () => {
+            const coinInput = document.getElementById('exchange-input').value;
+            document.getElementById('ton-estimate').innerText = coinInput >= 1000 ? ((coinInput/1000)*0.01).toFixed(3) : "0.00";
+        };
+
+        window.confirmManualExchange = () => {
+            const amount = parseInt(document.getElementById('exchange-input').value);
+            if (amount >= 1000 && balance >= amount) {
+                tonBalance += (amount / 1000) * 0.01;
+                balance -= amount;
+                document.getElementById('exchange-input').value = "";
+                updateUI();
+                alert("Exchange Successful!");
+            } else { alert("Minimum 1,000 coins & enough balance required!"); }
+        };
+
+        // --- TAPPING ---
+        document.getElementById('tap-target').addEventListener('click', (e) => {
+            if (energy >= multitap) {
+                balance += multitap; energy -= multitap;
+                updateUI();
+                const el = document.createElement('div');
+                el.className = 'floating-coin';
+                el.style.left = `${e.clientX}px`; el.style.top = `${e.clientY}px`;
+                el.innerText = `+${multitap}`;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 800);
+            }
+        });
+
+        window.showTab = (tabId) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active-tab');
+            event.currentTarget.classList.add('active');
+            if(tabId === 'mine') initUpgrades();
+        };
+
+        setInterval(() => {
+            if (pph > 0) balance += (pph / 3600);
+            if (energy < maxEnergy) energy += 1;
+            updateUI();
+        }, 1000);
+
+        // --- INITIAL START ---
+        applyOfflineEarnings();
+        initUpgrades();
+        updateUI();
+        completedTasks.forEach(id => {
+            const btn = document.getElementById(`task-${id}`);
+            if(btn) {
+                btn.innerText = "✅ Done";
+                btn.disabled = true;
+                btn.classList.replace('bg-yellow-600', 'bg-green-600');
+            }
+        });
+    </script>
+</body>
+</html>
