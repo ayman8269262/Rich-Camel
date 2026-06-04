@@ -56,12 +56,17 @@
 
         #puzzle-board { display: grid; gap: 4px; margin: 15px auto; background: #3d220d; padding: 10px; border-radius: 10px; width: fit-content; border: 1px solid #FFD700; }
         .puzzle-tile { width: 52px; height: 52px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        .puzzle-empty { background: rgba(255,255,255,0.1); color: transparent; cursor: default; }
+        .tile-empty { background: rgba(255,255,255,0.1); color: transparent; cursor: default; }
+
+        .floating-text {
+            position: absolute; pointer-events: none; color: #FFD700; font-weight: 800; font-size: 20px; animation: floatUp 0.6s ease-out forwards;
+        }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-100px); } }
 
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
-<body onclick="initAudio()">
+<body class="p-4" onclick="initAudio()">
 
     <!-- 3s Splash Screen -->
     <div id="splash">
@@ -144,11 +149,11 @@
             <div class="space-y-2">
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram Channel</p></div>
-                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">JOIN</button>
+                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 700)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">JOIN</button>
                 </div>
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">YouTube Sub</p></div>
-                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">SUBSCRIBE</button>
+                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 700)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">SUBSCRIBE</button>
                 </div>
             </div>
         </div>
@@ -222,7 +227,6 @@
         const BONUS_FLAG = 'rc_bonus_v8_applied';
         function applyBonus() {
             if (!localStorage.getItem(BONUS_FLAG)) {
-                // চেক করা হচ্ছে সে পুরাতন ইউজার কিনা (ব্যালেন্স বা লেভেল আগে থেকেই থাকলে)
                 if (localStorage.getItem('rc_balance') || localStorage.getItem('rc_pph')) {
                     balance += 300000;
                     alert("Old User Detected! 🐫 You received 300,000 bonus coins!");
@@ -231,12 +235,13 @@
             }
         }
 
+        // --- UPDATED UPGRADES (Income divided by 3) ---
         const upgrades = [
-            { id: 1, name: "Camel Milk", cost: 500, pph: 50, icon: "🥛" },
-            { id: 2, name: "Desert Convoy", cost: 2000, pph: 250, icon: "🚚" },
-            { id: 3, name: "Oasis Resort", cost: 10000, pph: 1200, icon: "🌴" },
-            { id: 4, name: "Gold Mine", cost: 50000, pph: 5500, icon: "⛏️" },
-            { id: 5, name: "Crypto Camel", cost: 250000, pph: 20000, icon: "💹" }
+            { id: 1, name: "Camel Milk", cost: 500, pph: 16.6, icon: "🥛" },
+            { id: 2, name: "Desert Convoy", cost: 2000, pph: 83.3, icon: "🚚" },
+            { id: 3, name: "Oasis Resort", cost: 10000, pph: 400, icon: "🌴" },
+            { id: 4, name: "Gold Mine", cost: 50000, pph: 1833.3, icon: "⛏️" },
+            { id: 5, name: "Crypto Camel", cost: 250000, pph: 6666.6, icon: "💹" }
         ];
 
         function fastSave() {
@@ -268,21 +273,33 @@
         }
 
         window.onload = () => {
-            applyBonus(); // বোনাস চেক রান করা হচ্ছে
+            applyBonus();
             setTimeout(() => { document.getElementById('splash').style.display='none'; }, 3000);
             updateUI(); initMine();
             tasks.forEach(t=>{ const b=document.getElementById(`task-${t}`); if(b){ b.innerText="✅ DONE"; b.disabled=true; }});
         };
 
-        // --- GAME ACTIONS ---
+        // --- TAP LOGIC (divided by 3) ---
         document.getElementById('tap-target').onclick = (e) => {
             if(energy >= 1) {
-                playSfx(); balance++; energy--;
+                playSfx(); 
+                balance += 0.333;
+                energy--;
+                showFloat(e.clientX, e.clientY, "+0.33");
                 updateUI();
             }
         };
 
-        // Puzzle Game
+        function showFloat(x, y, text) {
+            const div = document.createElement('div');
+            div.className = 'floating-text';
+            div.style.left = x + 'px'; div.style.top = y + 'px';
+            div.innerText = text;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 600);
+        }
+
+        // Puzzle Logic
         let pActive = false, pGrid = [], pSize = 3, pTimer;
         function startPuzzle() {
             const today = new Date().toLocaleDateString();
@@ -328,6 +345,7 @@
         }
 
         window.submitWithdraw = () => { alert("Verify Address & 10 Referrals Required!"); };
+
         function initMine() {
             const l = document.getElementById('upgrade-list'); if(!l) return;
             l.innerHTML = '';
@@ -343,13 +361,30 @@
         window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
         window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1000?(v/1000*0.01).toFixed(3):"0.000"); };
         window.confirmSwap = () => { let v = parseInt(document.getElementById('ex-input').value); if(v>=1000 && balance >= v) { playSfx(); tonBal+=(v/1000*0.01); balance-=v; updateUI(); alert("Swapped!"); } };
-        window.handleTask = (id,l,r) => { playSfx(); window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { balance+=r; tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); } };
+        
+        // UPDATED: Rewards changed from 666 to 700 coins
+        window.handleTask = (id,l,r) => { 
+            playSfx(); 
+            window.open(l,'_blank'); 
+            const b=document.getElementById(`task-${id}`); 
+            if(b.innerText!=="CLAIM") { 
+                b.innerText="CLAIM"; 
+            } else { 
+                balance += 700; // Reward updated to 700
+                tasks.push(id); 
+                b.innerText="✅ DONE"; 
+                b.disabled=true; 
+                updateUI(); 
+            } 
+        };
 
         // Sync and Loops
         const diff = Math.floor((Date.now() - lastTime)/1000);
         if(diff > 0) { balance += (pph/3600)*diff; energy = Math.min(1000, energy+diff); }
         setInterval(() => { if(pph>0) balance += (pph/3600); if(energy<1000) energy++; updateUI(); }, 1000);
-        setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=300; updateUI(); }); }, 120000);
+        
+        // AD REWARD (100 coins)
+        setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=100; updateUI(); }); }, 120000);
     </script>
 </body>
 </html>
