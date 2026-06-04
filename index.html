@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rich Camel 🐫 - V2 Pro</title>
+    <title>Rich Camel 🐫 - Pro V2 Final</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -49,7 +49,6 @@
         .puzzle-tile { width: 50px; height: 50px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .tile-empty { background: rgba(255,255,255,0.05); color: transparent; }
         ::-webkit-scrollbar { width: 0px; }
-        .camel-icon-small { width: 18px; height: 18px; display: inline-block; vertical-align: middle; }
     </style>
 </head>
 <body onclick="initAudio()">
@@ -61,13 +60,13 @@
         <div class="loader mt-4"></div>
     </div>
 
-    <!-- Top UI (3 Balances) -->
+    <!-- Top UI (Balances) -->
     <div class="p-3 space-y-2">
         <div class="glass-card p-2 flex flex-col items-center">
             <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">RCAMEL Balance</p>
             <div class="flex items-center gap-2">
                 <span class="text-2xl">🐫</span>
-                <h1 class="text-2xl font-extrabold" id="balance">2.0000</h1>
+                <h1 class="text-2xl font-extrabold" id="balance">0.0000</h1>
             </div>
         </div>
         <div class="flex gap-2">
@@ -87,7 +86,7 @@
             </div>
         </div>
         <div class="flex justify-center px-2 text-[9px] font-bold uppercase">
-            <span class="text-green-400">PPH: <span id="pph-display">0</span>/hr</span>
+            <span class="text-green-400">PPH: 🐫 <span id="pph-display">0</span>/hr</span>
         </div>
     </div>
 
@@ -101,7 +100,7 @@
                     </div>
                 </button>
                 <div class="mt-6 px-4">
-                    <p class="text-[11px] font-bold text-yellow-500 uppercase">Hourly Tap Reward (+0.1)</p>
+                    <p class="text-[11px] font-bold text-yellow-500 uppercase">Hourly Tap Reward (+0.1 🐫)</p>
                     <p class="text-[10px] text-gray-400 mt-1" id="tap-timer">Available Now</p>
                 </div>
             </div>
@@ -121,12 +120,12 @@
                 <div id="puzzle-board" class="puzzle-grid"></div>
                 <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 shadow-lg">START GAME</button>
             </div>
-            <p class="text-[10px] text-green-400 font-bold uppercase">Prize: $2.00 USDT</p>
+            <p class="text-[10px] text-green-400 font-bold uppercase">Reward: $2.00 USDT</p>
         </div>
 
         <!-- 4. TASKS -->
         <div id="tasks" class="tab-content px-2">
-            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase text-center">Missions</h2>
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Missions</h2>
             <div class="space-y-2">
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram</p></div>
@@ -155,8 +154,8 @@
             <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Swap to TON</h2>
             <div class="glass-card p-6">
                 <input type="number" id="ex-input" oninput="updateEx()" placeholder="RCAMEL" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 text-center text-lg font-bold mb-4 outline-none">
-                <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Get:</span><span class="text-blue-400"><span id="ex-res">0.000</span> TON</span></div>
-                <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Swap Now</button>
+                <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Get:</span><span class="text-blue-400 font-bold"><span id="ex-res">0.000</span> TON</span></div>
+                <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase">Swap Now</button>
                 <p class="text-[8px] text-gray-500 mt-2">1 RCAMEL = 0.65 TON</p>
             </div>
         </div>
@@ -168,9 +167,9 @@
                 <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-4">Airdrop</h2>
                 <div class="glass-card p-4 text-[9px] text-left uppercase leading-relaxed">
                     <p class="text-red-400 font-bold underline mb-1">ELIGIBILITY</p>
-                    <p>Minimum 10 referrals required for eligibility.</p>
+                    <p>Min 10 referrals required. Keep mining 🐫 RCAMEL.</p>
                 </div>
-                <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10">TON CHAIN LISTING SOON</div>
+                <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10">TON NETWORK LISTING SOON</div>
             </div>
         </div>
     </main>
@@ -187,13 +186,11 @@
     </div>
 
     <script>
-        // --- AD & SOUND ---
         let audioUnlocked = false;
         let popSound;
-        function initAudio() { if(!audioUnlocked) { popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'); audioUnlocked=true; } }
+        function initAudio() { if(!audioUnlocked) { try { popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'); audioUnlocked=true; } catch(e){} } }
         function playSfx() { if(audioUnlocked && popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
 
-        // --- UPGRADES CONFIG ---
         const upgrades = [
             { id: 1, name: "Micro Farm", cost: 1, pph: 0.05, icon: "🥛" },
             { id: 2, name: "Desert Shop", cost: 5, pph: 0.3, icon: "🚚" },
@@ -202,14 +199,13 @@
             { id: 5, name: "Crypto Camel", cost: 500, pph: 45.0, icon: "💹" }
         ];
 
-        // --- STATE ---
         let state = {
             balance: 2, pph: 0, energy: 1000, ton: 0, usd: 0,
             lastTime: Date.now(), lastTap: 0, levels: {}, tasks: [],
             pTries: 3, pDate: "", refs: 0
         };
 
-        const RESET_KEY_V6 = 'rc_final_balance_reset_v6';
+        const RESET_V7_KEY = 'rc_final_migration_v7';
 
         function recalculatePPH() {
             let total = 0;
@@ -222,14 +218,14 @@
 
         function loadData() {
             try {
-                // Restore old levels first
+                // IMPORTANT: Restore old levels first to prevent reset
                 let savedLevels = JSON.parse(localStorage.getItem('rc_levels')) || {};
                 state.levels = savedLevels;
 
-                // One-time balance reset to 2
-                if (!localStorage.getItem(RESET_KEY_V6)) {
+                // One-time Balance Reset to 2 RCAMEL
+                if (!localStorage.getItem(RESET_V7_KEY)) {
                     localStorage.setItem('rc_balance', 2);
-                    localStorage.setItem(RESET_KEY_V6, 'true');
+                    localStorage.setItem(RESET_V7_KEY, 'true');
                     state.balance = 2;
                 } else {
                     state.balance = parseFloat(localStorage.getItem('rc_balance')) || 2;
@@ -245,7 +241,7 @@
                 state.refs = parseInt(localStorage.getItem('rc_referrals')) || 0;
                 
                 recalculatePPH();
-            } catch(e) { console.error(e); }
+            } catch(e) { console.error("Error loading data", e); }
         }
 
         function fastSave() {
@@ -262,7 +258,7 @@
         }
 
         function updateUI() {
-            document.getElementById('balance').innerText = state.balance.toFixed(4);
+            document.getElementById('balance').innerText = state.balance.toFixed(5);
             document.getElementById('ton-display').innerText = state.ton.toFixed(3);
             document.getElementById('usd-display').innerText = "$" + state.usd.toFixed(2);
             document.getElementById('pph-display').innerText = state.pph.toFixed(2);
@@ -279,7 +275,6 @@
             }
         }
 
-        // Tap
         function handleTap() {
             if(Date.now() - state.lastTap < 3600000) return;
             if (typeof window.showGiga === 'function') {
@@ -290,7 +285,6 @@
             } else alert("Ad system loading...");
         }
 
-        // Mine
         function initMine() {
             const l = document.getElementById('upgrade-list'); if(!l) return;
             l.innerHTML = '';
@@ -309,7 +303,7 @@
         function startPuzzle() {
             const today = new Date().toLocaleDateString();
             if(state.pDate !== today) { state.pTries = 3; state.pDate = today; }
-            if(state.pTries <= 0) return alert("Daily limit reached!");
+            if(state.pTries <= 0) return alert("Come back tomorrow!");
             if(pActive) return;
             state.pTries--; pActive = true;
             pSize = (state.usd > 4) ? (state.usd > 15 ? 5 : 4) : 3;
@@ -335,26 +329,31 @@
             let empty=pGrid.indexOf(null), r=Math.floor(i/pSize), c=i%pSize, er=Math.floor(empty/pSize), ec=empty%pSize;
             if(Math.abs(r-er)+Math.abs(c-ec)===1) { playSfx(); [pGrid[i], pGrid[empty]]=[pGrid[empty], pGrid[i]]; renderP(); if(pGrid.slice(0,-1).every((v,idx)=>v===idx+1)) stopPuzzle(true); }
         }
-        function stopPuzzle(win) { pActive=false; clearInterval(pTimer); document.getElementById('p-start-btn').style.display='inline-block'; if(win){ state.usd+=2; alert("Winner! $2 added!"); } updateUI(); fastSave(); }
+        function stopPuzzle(win) { pActive=false; clearInterval(pTimer); document.getElementById('p-start-btn').style.display='inline-block'; if(win){ state.usd+=2; alert("Win! $2 added!"); } updateUI(); fastSave(); }
 
         window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
         window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1?(v*0.65).toFixed(3):"0.000"); };
         window.confirmSwap = () => { let v = parseFloat(document.getElementById('ex-input').value); if(v>=1 && state.balance >= v) { playSfx(); state.ton+=(v*0.65); state.balance-=v; updateUI(); fastSave(); alert("Swapped!"); } };
         window.handleTask = (id,l,r) => { playSfx(); window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { state.balance+=r; state.tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); fastSave(); } };
-        window.submitWithdraw = () => { if(state.usd < 20) return alert("Min $20!"); if(state.refs < 10) return alert("Need 10 Referrals!"); state.usd-=20; updateUI(); fastSave(); alert("Requested!"); };
+        window.submitWithdraw = () => { if(state.usd < 20) return alert("Min $20!"); if(state.refs < 10) return alert("10 Referrals Required!"); state.usd-=20; updateUI(); fastSave(); alert("Requested!"); };
 
-        // Startup
+        // AD REWARD FIX: 0.0001 coins per 2 min ad
+        setInterval(() => { if (typeof window.showGiga === 'function') window.showGiga().then(()=>{ state.balance+=0.0001; updateUI(); fastSave(); }); }, 120000);
+
+        // Main Loop
+        setInterval(() => { if(state.pph > 0) state.balance += (state.pph / 3600); updateUI(); fastSave(); }, 1000);
+
         window.addEventListener('load', () => {
             loadData();
             const diff = Math.floor((Date.now() - state.lastTime)/1000);
             if(diff > 0 && state.pph > 0) state.balance += (state.pph/3600)*diff;
             updateUI(); initMine();
             state.tasks.forEach(t=>{ const b=document.getElementById(`task-${t}`); if(b){ b.innerText="✅ DONE"; b.disabled=true; }});
-            setTimeout(() => document.getElementById('splash').style.display='none', 3000);
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                if(splash) splash.style.display = 'none';
+            }, 3000);
         });
-
-        setInterval(() => { if(state.pph > 0) state.balance += (state.pph / 3600); updateUI(); fastSave(); }, 1000);
-        setInterval(() => { if (typeof window.showGiga === 'function') window.showGiga().then(()=>{ state.balance+=0.05; updateUI(); fastSave(); }); }, 120000);
     </script>
 </body>
 </html>
