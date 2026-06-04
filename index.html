@@ -9,25 +9,25 @@
     
     <!-- Gigapub Ad Script -->
     <script data-project-id="6845">
-      !function(){
-        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
-        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
-        function l(){
-          sc=document.createElement('script');
-          sc.async=true;
-          sc.src=d[i]+'/script?id='+p;
-          clearTimeout(t);
-          t=setTimeout(function(){
-            sc.onload=sc.onerror=null;
-            sc.src='';
-            if(++i<d.length)l();
-          },15000);
-          sc.onload=function(){clearTimeout(t)};
-          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
-          document.head.appendChild(sc);
-        }
-        l();
-      }();
+        !function(){
+            var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+            var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+            function l(){
+                sc=document.createElement('script');
+                sc.async=true;
+                sc.src=d[i]+'/script?id='+p;
+                clearTimeout(t);
+                t=setTimeout(function(){
+                    sc.onload=sc.onerror=null;
+                    sc.src='';
+                    if(++i<d.length)l();
+                },15000);
+                sc.onload=function(){clearTimeout(t)};
+                sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+                document.head.appendChild(sc);
+            }
+            l();
+        }();
     </script>
 
     <style>
@@ -49,16 +49,14 @@
         .nav-btn.active { color: #FFD700; transform: scale(1.05); }
         .nav-btn i { font-size: 18px; }
 
-        /* Splash Screen */
         #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .loader-bar { width: 60%; height: 6px; background: #222; border-radius: 10px; margin-top: 20px; overflow: hidden; }
         .loader-fill { height: 100%; width: 0%; background: #FFD700; animation: fillSplash 3s linear forwards; }
         @keyframes fillSplash { to { width: 100%; } }
 
-        /* Puzzle Grid */
         #puzzle-board { display: grid; gap: 4px; margin: 15px auto; background: #3d220d; padding: 10px; border-radius: 10px; width: fit-content; border: 1px solid #FFD700; }
-        .puzzle-tile { width: 50px; height: 50px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        .tile-empty { background: rgba(255,255,255,0.1); color: transparent; cursor: default; }
+        .puzzle-tile { width: 52px; height: 52px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .puzzle-empty { background: rgba(255,255,255,0.1); color: transparent; cursor: default; }
 
         ::-webkit-scrollbar { width: 0px; }
     </style>
@@ -68,7 +66,7 @@
     <!-- 3s Splash Screen -->
     <div id="splash">
         <div class="text-7xl mb-4">🐫</div>
-        <h1 class="text-3xl font-extrabold gold-text uppercase">Rich Camel</h1>
+        <h1 class="text-3xl font-bold text-yellow-500 uppercase">Rich Camel</h1>
         <div class="loader-bar"><div class="loader-fill"></div></div>
     </div>
 
@@ -84,22 +82,22 @@
         <div class="flex gap-2">
             <div class="flex-1 glass-card p-2 text-center">
                 <p class="text-[8px] text-blue-300 font-bold uppercase">TON Balance</p>
-                <div class="flex items-center justify-center gap-1">
-                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-3.5 h-3.5">
+                <div class="flex items-center justify-center gap-1 mt-1">
+                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-4 h-4">
                     <span class="text-sm font-bold" id="ton-display">0.000</span>
                 </div>
             </div>
             <div class="flex-1 glass-card p-2 text-center">
                 <p class="text-[8px] text-green-400 font-bold uppercase">USDT Balance</p>
-                <div class="flex items-center justify-center gap-1">
-                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="w-3.5 h-3.5">
+                <div class="flex items-center justify-center gap-1 mt-1">
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="w-4 h-4">
                     <span class="text-sm font-bold" id="usd-display">$0.00</span>
                 </div>
             </div>
         </div>
         <div class="flex justify-between px-2 text-[9px] font-bold uppercase">
             <span class="text-green-400">Profit: <span id="pph-display">0</span>/hr</span>
-            <span class="text-yellow-500">Rank: <span id="rank-name">Nomad</span></span>
+            <span class="text-yellow-500 uppercase" id="rank-name">Nomad</span>
         </div>
     </div>
 
@@ -131,26 +129,26 @@
 
         <!-- 3. PUZZLE TAB -->
         <div id="puzzle" class="tab-content text-center px-2">
-            <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Sliding Puzzle</h2>
-            <p class="text-[10px] text-gray-500">Attempts: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
+            <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Hard Puzzle</h2>
+            <p class="text-[10px] text-gray-500">Tries: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
             <div class="glass-card p-3 my-4">
                 <div id="puzzle-board"></div>
-                <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 shadow-lg">START GAME</button>
+                <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 uppercase shadow-lg">Start Game</button>
             </div>
             <p class="text-[10px] text-green-400 font-bold uppercase">Prize: $2.00 USDT</p>
         </div>
 
         <!-- 4. TASKS TAB -->
         <div id="tasks" class="tab-content px-2">
-            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Missions</h2>
-            <div class="space-y-2" id="task-list">
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase text-center">Missions</h2>
+            <div class="space-y-2">
                 <div class="glass-card p-4 flex justify-between items-center">
-                    <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Join Telegram</p></div>
-                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">JOIN</button>
+                    <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram Channel</p></div>
+                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">JOIN</button>
                 </div>
                 <div class="glass-card p-4 flex justify-between items-center">
                     <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">YouTube Sub</p></div>
-                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">SUBSCRIBE</button>
+                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">SUBSCRIBE</button>
                 </div>
             </div>
         </div>
@@ -160,9 +158,9 @@
             <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4">Withdraw USDT</h2>
             <div class="glass-card p-5 space-y-4">
                 <input type="text" id="w-addr" placeholder="USDT BEP-20 Address" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-xs outline-none">
-                <input type="number" id="w-amt" placeholder="Min $20" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-sm outline-none">
+                <input type="number" id="w-amt" placeholder="Amount (Min $20)" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-sm outline-none">
                 <button onclick="submitWithdraw()" class="w-full bg-green-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Submit Request</button>
-                <p class="text-[8px] text-gray-500 uppercase mt-2">10 Referrals Required to Withdraw</p>
+                <p class="text-[8px] text-gray-500 uppercase mt-2">10 Referrals Required</p>
             </div>
         </div>
 
@@ -182,15 +180,15 @@
                 <div class="text-6xl mb-4 drop-shadow-lg">💎</div>
                 <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-6 tracking-widest">Airdrop</h2>
                 <div class="glass-card p-4 mb-3 text-[9px] text-left uppercase leading-relaxed">
-                    <p class="text-red-400 font-bold underline mb-1">Requirement</p>
-                    <p>Minimum 10 referrals required for eligibility.</p>
+                    <p class="text-red-400 font-bold mb-1 underline">Requirement</p>
+                    <p>Minimum 10 referrals required for snapshot eligibility.</p>
                 </div>
                 <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10">LISTING SOON</div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- Bottom Nav Bar -->
     <div class="bottom-nav">
         <button onclick="nav('home')" class="nav-btn active"><i class="fas fa-home"></i><span>Home</span></button>
         <button onclick="nav('mine')" class="nav-btn"><i class="fas fa-pickaxe"></i><span>Mine</span></button>
@@ -208,7 +206,7 @@
         function initAudio() { if(!audioUnlocked) { popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'); popSound.play().then(()=>{ popSound.pause(); audioUnlocked=true; }).catch(()=>{}); } }
         function playSfx() { if(audioUnlocked && popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
 
-        // --- CORE DATA PERSISTENCE (RESTORED OLD KEYS) ---
+        // --- CORE DATA PERSISTENCE ---
         let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
         let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
         let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
@@ -219,7 +217,19 @@
         let tasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
         let pTries = parseInt(localStorage.getItem('rc_puzzle_tries')) || 3;
         let pDate = localStorage.getItem('rc_puzzle_date') || "";
-        let referrals = 0; // Referrals mock
+
+        // --- OLD USER BONUS (300,000 Coin) ---
+        const BONUS_FLAG = 'rc_bonus_v8_applied';
+        function applyBonus() {
+            if (!localStorage.getItem(BONUS_FLAG)) {
+                // চেক করা হচ্ছে সে পুরাতন ইউজার কিনা (ব্যালেন্স বা লেভেল আগে থেকেই থাকলে)
+                if (localStorage.getItem('rc_balance') || localStorage.getItem('rc_pph')) {
+                    balance += 300000;
+                    alert("Old User Detected! 🐫 You received 300,000 bonus coins!");
+                }
+                localStorage.setItem(BONUS_FLAG, 'true');
+            }
+        }
 
         const upgrades = [
             { id: 1, name: "Camel Milk", cost: 500, pph: 50, icon: "🥛" },
@@ -229,7 +239,6 @@
             { id: 5, name: "Crypto Camel", cost: 250000, pph: 20000, icon: "💹" }
         ];
 
-        // --- UI & DATA SAVING ---
         function fastSave() {
             localStorage.setItem('rc_balance', balance);
             localStorage.setItem('rc_pph', pph);
@@ -258,8 +267,8 @@
             fastSave();
         }
 
-        // Loading Screen Close
         window.onload = () => {
+            applyBonus(); // বোনাস চেক রান করা হচ্ছে
             setTimeout(() => { document.getElementById('splash').style.display='none'; }, 3000);
             updateUI(); initMine();
             tasks.forEach(t=>{ const b=document.getElementById(`task-${t}`); if(b){ b.innerText="✅ DONE"; b.disabled=true; }});
@@ -273,7 +282,7 @@
             }
         };
 
-        // Puzzle Game Logic
+        // Puzzle Game
         let pActive = false, pGrid = [], pSize = 3, pTimer;
         function startPuzzle() {
             const today = new Date().toLocaleDateString();
@@ -281,7 +290,7 @@
             if(pTries <= 0) return alert("Daily limit reached!");
             if(pActive) return;
             pTries--; pActive = true;
-            pSize = (usdBal > 5) ? (usdBal > 15 ? 5 : 4) : 3;
+            pSize = (usdBal > 6) ? (usdBal > 15 ? 5 : 4) : 3;
             let nums = Array.from({length: pSize*pSize-1}, (_,i)=>i+1);
             nums.push(null); nums.sort(()=>Math.random()-0.5); pGrid = nums;
             renderP();
@@ -299,7 +308,7 @@
             const b = document.getElementById('puzzle-board'); b.style.gridTemplateColumns=`repeat(${pSize}, 1fr)`; b.innerHTML='';
             pGrid.forEach((v,i) => {
                 const t = document.createElement('div');
-                t.className = 'puzzle-tile' + (v?'':' tile-empty');
+                t.className = 'puzzle-tile' + (v?'':' puzzle-empty');
                 t.innerText = v || ''; t.onclick = () => moveT(i); b.appendChild(t);
             });
         }
@@ -314,11 +323,11 @@
         function stopPuzzle(win) {
             pActive = false; clearInterval(pTimer);
             document.getElementById('p-start-btn').style.display='inline-block';
-            if(win) { usdBal += 2; alert("Winner! $2.00 USDT added!"); } else alert("Time Up!");
+            if(win) { usdBal += 2; alert("Winner! $2.00 USDT added!"); }
             updateUI();
         }
 
-        // Project Mine
+        window.submitWithdraw = () => { alert("Verify Address & 10 Referrals Required!"); };
         function initMine() {
             const l = document.getElementById('upgrade-list'); if(!l) return;
             l.innerHTML = '';
@@ -326,25 +335,19 @@
                 let lv = levels[u.id] || 0, c = Math.floor(u.cost * Math.pow(1.5, lv));
                 const d = document.createElement('div');
                 d.className = "glass-card p-3 flex justify-between items-center";
-                d.innerHTML = `<div class="flex items-center gap-3"><span>${u.icon}</span><div><p class="text-[10px] font-bold">${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c.toLocaleString()}</p></div></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold">UPGRADE</button>`;
+                d.innerHTML = `<div class="flex items-center gap-3"><span>${u.icon}</span><div><p class="text-[10px] font-bold">${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c.toLocaleString()}</p></div></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase">UPGRADE</button>`;
                 l.appendChild(d);
             });
         }
         window.buyU = (id,c,b) => { if(balance>=c) { playSfx(); balance-=c; pph+=b; levels[id]++; initMine(); updateUI(); } else alert("No Coins!"); };
-
-        // Functions
         window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
         window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1000?(v/1000*0.01).toFixed(3):"0.000"); };
         window.confirmSwap = () => { let v = parseInt(document.getElementById('ex-input').value); if(v>=1000 && balance >= v) { playSfx(); tonBal+=(v/1000*0.01); balance-=v; updateUI(); alert("Swapped!"); } };
         window.handleTask = (id,l,r) => { playSfx(); window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { balance+=r; tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); } };
-        window.submitWithdraw = () => { alert("Minimum 10 referrals required for withdrawal!"); };
 
-        // Sync Passive
-        const now = Date.now();
-        const diff = Math.floor((now - lastTime)/1000);
+        // Sync and Loops
+        const diff = Math.floor((Date.now() - lastTime)/1000);
         if(diff > 0) { balance += (pph/3600)*diff; energy = Math.min(1000, energy+diff); }
-
-        // Loop
         setInterval(() => { if(pph>0) balance += (pph/3600); if(energy<1000) energy++; updateUI(); }, 1000);
         setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=300; updateUI(); }); }, 120000);
     </script>
