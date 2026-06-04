@@ -3,132 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rich Camel 🐫 - Update in Progress</title>
+    <title>Rich Camel 🐫</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Gigapub Ad Script -->
+    <script data-project-id="6845">
+        !function(){
+            var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+            var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+            function l(){
+                sc=document.createElement('script');
+                sc.async=true;
+                sc.src=d[i]+'/script?id='+p;
+                clearTimeout(t);
+                t=setTimeout(function(){
+                    sc.onload=sc.onerror=null;
+                    sc.src='';
+                    if(++i<d.length)l();
+                },15000);
+                sc.onload=function(){clearTimeout(t)};
+                sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+                document.head.appendChild(sc);
+            }
+            l();
+        }();
+    </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #2d1b0d, #000000); 
-            color: white; 
-            overflow: hidden; 
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin: 0;
-        }
-
-        .gold-text { 
-            background: linear-gradient(to bottom, #FFD700, #B8860B); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
-
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 30px; 
-            padding: 40px 20px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .camel-animation {
-            font-size: 80px;
-            animation: float 3s ease-in-out infinite;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .loader-dots span {
-            width: 10px;
-            height: 10px;
-            margin: 0 5px;
-            background: #FFD700;
-            border-radius: 50%;
-            display: inline-block;
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-
-        .loader-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loader-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
-        }
-
-        .update-btn {
-            background: linear-gradient(180deg, #FFD700, #B8860B);
-            color: black;
-            font-weight: bold;
-            padding: 15px 30px;
-            border-radius: 15px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 30px;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
-        }
-
-        .update-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 25px rgba(255, 215, 0, 0.3);
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: #222;
-            border-radius: 10px;
-            margin-top: 30px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 75%; /* আপনি চাইলে এটি পরিবর্তন করতে পারেন */
-            background: #FFD700;
-            box-shadow: 0 0 10px #FFD700;
-        }
+        body { font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #2d1b0d, #000000); color: white; overflow: hidden; height: 100vh; user-select: none; margin: 0; }
+        .gold-text { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tab-content { display: none; height: calc(100vh - 230px); overflow-y: auto; padding-bottom: 50px; }
+        .active-tab { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; border-top: 1px solid #3d220d; display: grid; grid-template-columns: repeat(7, 1fr); padding: 12px 2px; z-index: 1000; }
+        .nav-btn { color: #888; font-size: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .nav-btn.active { color: #FFD700; font-weight: bold; }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loader { width: 40px; height: 40px; border: 4px solid #333; border-top-color: #FFD700; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .puzzle-grid { display: grid; gap: 4px; margin: 10px auto; background: #2d1b0d; padding: 10px; border-radius: 10px; width: fit-content; }
+        .puzzle-tile { width: 50px; height: 50px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .tile-empty { background: rgba(255,255,255,0.05); color: transparent; }
+        ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
-<body>
+<body onclick="initAudio()">
 
-    <div class="glass-card">
-        <div class="camel-animation">🐫</div>
-        
-        <h1 class="text-3xl font-extrabold gold-text uppercase tracking-widest mb-2">New Update</h1>
-        <p class="text-gray-400 text-sm mb-6">We are currently improving your desert experience. Something big is coming!</p>
-        
-        <div class="loader-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-        <p class="text-[10px] text-yellow-500 mt-2 font-bold uppercase tracking-widest">Update in Progress: 75%</p>
-
-        <a href="https://t.me/RichCamel0" class="update-btn uppercase text-xs">
-            <i class="fab fa-telegram-plane mr-2"></i> Join Telegram for News
-        </a>
-
-        <p class="text-[9px] text-gray-600 mt-10 uppercase tracking-tighter">Rich Camel 🐫 - Empowering the Desert Economy</p>
+    <!-- Splash Screen (3s) -->
+    <div id="splash">
+        <div class="text-7xl mb-4">🐫</div>
+        <h1 class="text-3xl font-extrabold gold-text uppercase tracking-widest">Rich Camel</h1>
+        <div class="loader mt-4"></div>
     </div>
 
+    <!-- Top Balances Section -->
+    <div class="p-3 space-y-2">
+        <div class="glass-card p-2 flex flex-col items-center">
+            <p class="text-[9px] text-gray-500 uppercase">Camel Balance</p>
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🐫</span>
+                <h1 class="text-2xl font-extrabold" id="balance">0</h1>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <div class="flex-1 glass-card p-2 text-center">
+                <p class="text-[8px] text-blue-300 uppercase font-bold">TON</p>
+                <div class="flex items-center justify-center gap-1">
+                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-3.5 h-3.5">
+                    <span class="text-sm font-bold" id="ton-display">0.000</span>
+                </div>
+            </div>
+            <div class="flex-1 glass-card p-2 text-center">
+                <p class="text-[8px] text-green-400 uppercase font-bold">USDT</p>
+                <div class="flex items-center justify-center gap-1">
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="w-3.5 h-3.5">
+                    <span class="text-sm font-bold" id="usd-display">$0.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between px-2 text-[9px] font-bold uppercase">
+            <span class="text-green-400">PPH: <span id="pph-display">0</span>/hr</span>
+            <span class="text-yellow-500">Refs: <span id="ref-count-display">0</span></span>
+        </div>
+    </div>
+
+    <main class="px-4">
+        <!-- 1. HOME TAB -->
+        <div id="home" class="tab-content active-tab text-center">
+            <div class="flex flex-col items-center justify-center pt-4">
+                <button class="camel-btn transition-transform active:scale-90" id="tap-target">
+                    <div class="w-52 h-52 bg-yellow-500/10 rounded-full flex items-center justify-center border-4 border-yellow-600/20 shadow-2xl">
+                        <span class="text-[100px]">🐫</span>
+                    </div>
+                </button>
+                <div class="w-full mt-10 px-4">
+                    <div class="flex justify-between mb-1 text-[10px] font-bold text-gray-400 uppercase">
+                        <span>⚡ Energy: <span id="energy">1000</span> / 1000</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-gray-900 rounded-full p-0.5 border border-gray-800">
+                        <div id="energy-bar" class="h-full bg-yellow-500 rounded-full transition-all duration-300" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MINE TAB -->
+        <div id="mine" class="tab-content px-2">
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Projects</h2>
+            <div id="upgrade-list" class="space-y-2"></div>
+        </div>
+
+        <!-- 3. PUZZLE TAB -->
+        <div id="puzzle" class="tab-content text-center px-2">
+            <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Hard Puzzle Challenge</h2>
+            <p class="text-[10px] text-gray-500">Tries: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
+            <div class="glass-card p-3 my-4">
+                <div id="puzzle-board" class="puzzle-grid"></div>
+                <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 uppercase">Start Game</button>
+            </div>
+            <p class="text-[10px] text-green-400 font-bold uppercase">Reward: $2.00 USDT</p>
+        </div>
+
+        <!-- 4. TASKS TAB -->
+        <div id="tasks" class="tab-content">
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Missions</h2>
+            <div class="space-y-2 px-2">
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram</p></div>
+                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">JOIN</button>
+                </div>
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">YouTube</p></div>
+                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 2000)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold">SUBSCRIBE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. WITHDRAW TAB -->
+        <div id="withdraw" class="tab-content text-center px-4">
+            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4">Withdraw USDT</h2>
+            <div class="glass-card p-5 space-y-4 text-left">
+                <div>
+                    <label class="text-[9px] text-gray-500 uppercase ml-2">USDT Address (BEP-20)</label>
+                    <input type="text" id="w-addr" placeholder="0x..." class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-xs outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="text-[9px] text-gray-500 uppercase ml-2">Amount (Min $20)</label>
+                    <input type="number" id="w-amt" placeholder="20" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-sm outline-none">
+                </div>
+                <button onclick="submitWithdraw()" class="w-full bg-green-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Submit Request</button>
+                <p class="text-[8px] text-gray-500 text-center uppercase">Condition: 10 Referrals Required</p>
+            </div>
+        </div>
+
+        <!-- 6. EXCHANGE TAB -->
+        <div id="exchange" class="tab-content text-center px-4">
+            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Swap to TON</h2>
+            <div class="glass-card p-6 text-center">
+                <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-12 h-12 mx-auto mb-4">
+                <input type="number" id="ex-input" oninput="updateEx()" placeholder="Coins" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 text-center text-lg font-bold mb-4 outline-none">
+                <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Get:</span><span class="text-blue-400"><span id="ex-res">0.000</span> TON</span></div>
+                <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase">Swap Coins</button>
+            </div>
+        </div>
+
+        <!-- 7. AIRDROP TAB -->
+        <div id="airdrop" class="tab-content text-center px-6">
+            <div class="pt-6">
+                <div class="text-6xl mb-4">💎</div>
+                <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-4 tracking-widest">Airdrop</h2>
+                <div class="glass-card p-4 text-[9px] text-left uppercase leading-relaxed">
+                    <p class="text-red-400 font-bold underline mb-1">ELIGIBILITY</p>
+                    <p>Minimum 10 referrals required for eligibility.</p>
+                </div>
+                <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10">LISTING SOON</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button onclick="nav('home')" class="nav-btn active"><i class="fas fa-home"></i><span>Home</span></button>
+        <button onclick="nav('mine')" class="nav-btn"><i class="fas fa-pickaxe"></i><span>Mine</span></button>
+        <button onclick="nav('puzzle')" class="nav-btn"><i class="fas fa-puzzle-piece"></i><span>Puzzle</span></button>
+        <button onclick="nav('tasks')" class="nav-btn"><i class="fas fa-tasks"></i><span>Tasks</span></button>
+        <button onclick="nav('withdraw')" class="nav-btn"><i class="fas fa-wallet"></i><span>USD</span></button>
+        <button onclick="nav('exchange')" class="nav-btn"><i class="fas fa-sync"></i><span>Swap</span></button>
+        <button onclick="nav('airdrop')" class="nav-btn"><i class="fas fa-parachute-box"></i><span>Drop</span></button>
+    </div>
+
+    <script>
+        // --- SOUND & INITIALIZATION ---
+        let audioUnlocked = false;
+        let popSound;
+        function initAudio() { if(!audioUnlocked) { popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'); audioUnlocked=true; } }
+        function playSfx() { if(audioUnlocked && popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
+
+        // --- CORE DATA PERSISTENCE ---
+        let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
+        let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
+        let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
+        let tonBal = parseFloat(localStorage.getItem('rc_ton_balance')) || 0;
+        let usdBal = parseFloat(localStorage.getItem('rc_usd_balance')) || 0;
+        let lastTime = parseInt(localStorage.getItem('rc_last_time')) || Date.now();
+        let levels = JSON.parse(localStorage.getItem('rc_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
+        let tasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
+        let pTries = parseInt(localStorage.getItem('rc_puzzle_tries')) || 3;
+        let pDate = localStorage.getItem('rc_puzzle_date') || "";
+        let refs = parseInt(localStorage.getItem('rc_referrals')) || 0;
+
+        const upgrades = [
+            { id: 1, name: "Camel Milk Farm", cost: 500, pph: 50, icon: "🥛" },
+            { id: 2, name: "Desert Convoy", cost: 2000, pph: 250, icon: "🚚" },
+            { id: 3, name: "Oasis Resort", cost: 10000, pph: 1200, icon: "🌴" },
+            { id: 4, name: "Gold Mine", cost: 50000, pph: 5500, icon: "⛏️" },
+            { id: 5, name: "Crypto Camel", cost: 250000, pph: 20000, icon: "💹" }
+        ];
+
+        function fastSave() {
+            localStorage.setItem('rc_balance', balance);
+            localStorage.setItem('rc_pph', pph);
+            localStorage.setItem('rc_energy', energy);
+            localStorage.setItem('rc_ton_balance', tonBal);
+            localStorage.setItem('rc_usd_balance', usdBal);
+            localStorage.setItem('rc_levels', JSON.stringify(levels));
+            localStorage.setItem('rc_tasks', JSON.stringify(tasks));
+            localStorage.setItem('rc_puzzle_tries', pTries);
+            localStorage.setItem('rc_puzzle_date', pDate);
+            localStorage.setItem('rc_last_time', Date.now());
+            localStorage.setItem('rc_referrals', refs);
+        }
+
+        function updateUI() {
+            document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
+            document.getElementById('ton-display').innerText = tonBal.toFixed(3);
+            document.getElementById('usd-display').innerText = "$" + usdBal.toFixed(2);
+            document.getElementById('pph-display').innerText = "+" + Math.floor(pph);
+            document.getElementById('energy').innerText = Math.floor(energy);
+            document.getElementById('energy-bar').style.width = (energy/10) + '%';
+            document.getElementById('p-tries').innerText = pTries;
+            document.getElementById('ref-count-display').innerText = refs;
+            fastSave();
+        }
+
+        // Tap
+        document.getElementById('tap-target').onclick = (e) => {
+            if(energy >= 1) {
+                playSfx(); balance++; energy--;
+                updateUI();
+            }
+        };
+
+        // Puzzle Game Logic (Standard Sliding)
+        let pActive = false, pGrid = [], pSize = 3, pTimer;
+        function startPuzzle() {
+            const today = new Date().toLocaleDateString();
+            if(pDate !== today) { pTries = 3; pDate = today; }
+            if(pTries <= 0) return alert("Daily limit reached!");
+            if(pActive) return;
+            pTries--; pActive = true;
+            // Set Difficulty
+            pSize = (usdBal > 6) ? (usdBal > 15 ? 5 : 4) : 3;
+            let nums = Array.from({length: pSize*pSize-1}, (_,i)=>i+1);
+            nums.push(null); nums.sort(()=>Math.random()-0.5); pGrid = nums;
+            renderP();
+            document.getElementById('p-start-btn').style.display='none';
+            let sec = 300;
+            pTimer = setInterval(() => {
+                sec--;
+                let m=Math.floor(sec/60), s=sec%60;
+                document.getElementById('p-timer').innerText = `${m}:${s<10?'0':''}${s}`;
+                if(sec<=0) stopPuzzle(false);
+            }, 1000);
+            updateUI();
+        }
+        function renderP() {
+            const b = document.getElementById('puzzle-board'); b.style.gridTemplateColumns=`repeat(${pSize}, 1fr)`; b.innerHTML='';
+            pGrid.forEach((v,i) => {
+                const t = document.createElement('div');
+                t.className = 'puzzle-tile' + (v?'':' tile-empty'); t.innerText = v || ''; t.onclick = () => moveT(i); b.appendChild(t);
+            });
+        }
+        function moveT(i) {
+            if(!pActive) return;
+            let empty = pGrid.indexOf(null), r=Math.floor(i/pSize), c=i%pSize, er=Math.floor(empty/pSize), ec=empty%pSize;
+            if(Math.abs(r-er)+Math.abs(c-ec) === 1) {
+                playSfx(); [pGrid[i], pGrid[empty]] = [pGrid[empty], pGrid[i]]; renderP();
+                if(pGrid.slice(0,-1).every((v,idx)=>v===idx+1)) stopPuzzle(true);
+            }
+        }
+        function stopPuzzle(win) {
+            pActive = false; clearInterval(pTimer);
+            document.getElementById('p-start-btn').style.display='inline-block';
+            if(win) { usdBal += 2; alert("Winner! $2.00 Reward!"); } else alert("Failed!");
+            updateUI();
+        }
+
+        // Withdraw USDT
+        window.submitWithdraw = () => {
+            let a = document.getElementById('w-addr').value, v = parseFloat(document.getElementById('w-amt').value);
+            if(v < 20) return alert("Min $20!");
+            if(usdBal < v) return alert("Insufficient balance!");
+            if(refs < 10) return alert("You need at least 10 referrals to withdraw!");
+            if(a.length < 10) return alert("Invalid BEP-20 address!");
+            usdBal -= v; updateUI(); alert("Withdrawal Requested!");
+        };
+
+        // Project Mine
+        function initMine() {
+            const l = document.getElementById('upgrade-list'); if(!l) return;
+            l.innerHTML = '';
+            upgrades.forEach(u => {
+                let lv = levels[u.id] || 0, c = Math.floor(u.cost * Math.pow(1.5, lv));
+                const d = document.createElement('div');
+                d.className = "glass-card p-3 flex justify-between items-center";
+                d.innerHTML = `<div class="flex items-center gap-3"><span>${u.icon}</span><div><p class="text-[10px] font-bold">${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c.toLocaleString()}</p></div></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold">UPGRADE</button>`;
+                l.appendChild(d);
+            });
+        }
+        window.buyU = (id,c,b) => { if(balance>=c) { playSfx(); balance-=c; pph+=b; levels[id]++; initMine(); updateUI(); } else alert("No coins!"); };
+
+        // Others
+        window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
+        window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1000?(v/1000*0.01).toFixed(3):"0.000"); };
+        window.confirmSwap = () => { let v = parseInt(document.getElementById('ex-input').value); if(v>=1000 && balance >= v) { playSfx(); tonBal+=(v/1000*0.01); balance-=v; updateUI(); alert("Swapped!"); } };
+        window.handleTask = (id,l,r) => { playSfx(); window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { balance+=r; tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); } };
+
+        // Splash Timer Fix
+        window.onload = () => {
+            setTimeout(() => { document.getElementById('splash').style.display='none'; }, 3000);
+            initMine(); updateUI();
+        };
+
+        // Loops
+        setInterval(() => { if(pph>0) balance += (pph/3600); if(energy<1000) energy++; updateUI(); }, 1000);
+        setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=300; updateUI(); }); }, 120000);
+
+        // Sync and Load Tasks
+        const diff = Math.floor((Date.now() - lastTime)/1000);
+        balance += (pph/3600)*diff; energy = Math.min(1000, energy+diff);
+        tasks.forEach(t=>{ const b=document.getElementById(`task-${t}`); if(b){ b.innerText="✅ DONE"; b.disabled=true; }});
+    </script>
 </body>
 </html>
