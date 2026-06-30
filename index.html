@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rich Camel 🐫 - Pro Edition</title>
+    <title>CR7 Ronaldo - Football Airdrop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -31,22 +31,32 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-        body { font-family: 'Poppins', sans-serif; background: radial-gradient(circle at top, #2d1b0d, #000000); color: white; overflow: hidden; height: 100vh; user-select: none; margin: 0; }
-        .gold-text { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
         
-        .tab-content { display: none; height: calc(100vh - 230px); overflow-y: auto; padding-bottom: 20px; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle at top, #001a33, #000000); 
+            color: white; 
+            overflow: hidden; 
+            height: 100vh; 
+            user-select: none; 
+            margin: 0; 
+        }
+
+        .cr7-gold { background: linear-gradient(to bottom, #FFD700, #B8860B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .tab-content { display: none; height: calc(100vh - 240px); overflow-y: auto; padding-bottom: 30px; }
         .active-tab { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; }
         
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 1px solid rgba(255,215,0,0.2);
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.96); border-top: 1px solid rgba(255,215,0,0.2);
             display: grid; grid-template-columns: repeat(7, 1fr); padding: 12px 2px; z-index: 1000;
         }
         .nav-btn { color: #888; font-size: 8px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: 0.2s; }
-        .nav-btn.active { color: #FFD700; transform: scale(1.05); }
+        .nav-btn.active { color: #FFD700; transform: scale(1.05); font-weight: bold; }
         .nav-btn i { font-size: 18px; }
 
         #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -54,70 +64,72 @@
         .loader-fill { height: 100%; width: 0%; background: #FFD700; animation: fillSplash 3s linear forwards; }
         @keyframes fillSplash { to { width: 100%; } }
 
-        #puzzle-board { display: grid; gap: 4px; margin: 15px auto; background: #3d220d; padding: 10px; border-radius: 10px; width: fit-content; border: 1px solid #FFD700; }
-        .puzzle-tile { width: 52px; height: 52px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        .tile-empty { background: rgba(255,255,255,0.1); color: transparent; cursor: default; }
-
-        .floating-text {
-            position: absolute; pointer-events: none; color: #FFD700; font-weight: 800; font-size: 20px; animation: floatUp 0.6s ease-out forwards;
-        }
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-100px); } }
-
+        .puzzle-grid { display: grid; gap: 4px; margin: 10px auto; background: #001529; padding: 10px; border-radius: 10px; width: fit-content; border: 1px solid #FFD700; }
+        .puzzle-tile { width: 50px; height: 50px; background: #FFD700; color: #000; font-weight: 800; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .tile-empty { background: rgba(255,255,255,0.1); color: transparent; }
+        
+        .siuuu-text { position: absolute; font-weight: 900; color: #FFD700; font-style: italic; pointer-events: none; animation: siuuuFloat 0.8s ease-out forwards; z-index: 500; }
+        @keyframes siuuuFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-100px) scale(1.5); } }
+        
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
 <body class="p-4" onclick="initAudio()">
 
-    <!-- 3s Splash Screen -->
+    <!-- Splash Screen -->
     <div id="splash">
-        <div class="text-7xl mb-4">🐫</div>
-        <h1 class="text-3xl font-bold text-yellow-500 uppercase">Rich Camel</h1>
+        <div class="text-7xl mb-4">⚽</div>
+        <h1 class="text-3xl font-extrabold gold-text uppercase tracking-tighter">CR7 FOOTBALL</h1>
         <div class="loader-bar"><div class="loader-fill"></div></div>
     </div>
 
     <!-- Top Balances Section -->
     <div class="p-3 space-y-2">
         <div class="glass-card p-3 flex flex-col items-center">
-            <p class="text-[10px] text-gray-400 uppercase font-bold">Camel Balance</p>
+            <p class="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Football Balance</p>
             <div class="flex items-center gap-2">
-                <img src="https://cdn-icons-png.flaticon.com/512/272/272525.png" class="w-8 h-8">
+                <span class="text-2xl">⚽</span>
                 <h1 class="text-3xl font-extrabold" id="balance">0</h1>
             </div>
         </div>
+
         <div class="flex gap-2">
             <div class="flex-1 glass-card p-2 text-center">
                 <p class="text-[8px] text-blue-300 font-bold uppercase">TON Balance</p>
-                <div class="flex items-center justify-center gap-1 mt-1">
-                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-4 h-4">
-                    <span class="text-sm font-bold" id="ton-display">0.000</span>
+                <div class="flex items-center justify-center gap-1">
+                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-3.5 h-3.5">
+                    <span class="text-sm font-bold text-white" id="ton-balance-display">0.000</span>
                 </div>
             </div>
-            <div class="flex-1 glass-card p-2 text-center">
+            <div class="balance-item flex-1 glass-card p-2 text-center">
                 <p class="text-[8px] text-green-400 font-bold uppercase">USDT Balance</p>
-                <div class="flex items-center justify-center gap-1 mt-1">
-                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="w-4 h-4">
-                    <span class="text-sm font-bold" id="usd-display">$0.00</span>
+                <div class="flex items-center justify-center gap-1">
+                    <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" class="w-3.5 h-3.5">
+                    <span class="text-sm font-bold text-white" id="usd-balance-display">$0.00</span>
                 </div>
             </div>
         </div>
-        <div class="flex justify-between px-2 text-[9px] font-bold uppercase">
-            <span class="text-green-400">Profit: <span id="pph-display">0</span>/hr</span>
-            <span class="text-yellow-500 uppercase" id="rank-name">Nomad</span>
+
+        <div class="flex justify-between px-2 text-[9px] font-bold uppercase tracking-widest">
+            <span class="text-green-400">Profit: ⚽ <span id="pph-display">0</span>/hr</span>
+            <span class="text-yellow-500">Rank: <span id="rank-name">Nomad</span></span>
         </div>
     </div>
 
     <main class="px-4">
         <!-- 1. HOME TAB -->
         <div id="home" class="tab-content active-tab text-center">
-            <div class="flex flex-col items-center justify-center pt-4">
-                <button class="camel-btn transition-transform active:scale-90" id="tap-target">
-                    <div class="w-60 h-60 bg-yellow-500/10 rounded-full flex items-center justify-center border-4 border-yellow-600/20 shadow-2xl">
-                        <span class="text-[110px]">🐫</span>
+            <div class="flex flex-col items-center justify-center pt-2">
+                <button class="camel-btn transition-transform active:scale-90 relative" id="tap-target">
+                    <!-- Smaller Ronaldo Original Image -->
+                    <div class="w-52 h-52 bg-yellow-500/10 rounded-full flex items-center justify-center border-4 border-yellow-600/30 shadow-[0_0_50px_rgba(255,215,0,0.15)] overflow-hidden backdrop-blur-sm">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg" class="w-full h-full object-cover" style="object-position: center top;">
                     </div>
+                    <div class="absolute -bottom-2 -right-1 text-5xl">⚽</div>
                 </button>
                 <div class="w-full mt-10 px-4">
-                    <div class="flex justify-between mb-1 text-[10px] font-bold text-gray-400 uppercase">
-                        <span>⚡ Energy: <span id="energy">1000</span> / 1000</span>
+                    <div class="flex justify-between mb-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        <span>⚡ Stamina: <span id="energy">1000</span> / 1000</span>
                     </div>
                     <div class="w-full h-2.5 bg-gray-900 rounded-full p-0.5 border border-gray-800">
                         <div id="energy-bar" class="h-full bg-yellow-500 rounded-full transition-all duration-300" style="width: 100%"></div>
@@ -128,53 +140,53 @@
 
         <!-- 2. MINE TAB -->
         <div id="mine" class="tab-content px-2">
-            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase">Desert Projects</h2>
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase tracking-widest">Football Projects</h2>
             <div id="upgrade-list" class="space-y-2"></div>
         </div>
 
         <!-- 3. PUZZLE TAB -->
-        <div id="puzzle" class="tab-content text-center px-2">
-            <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Hard Puzzle</h2>
-            <p class="text-[10px] text-gray-500">Tries: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
+        <div id="puzzle" class="tab-content text-center">
+            <h2 class="text-sm font-bold text-yellow-500 uppercase mb-2">Tactical Puzzle</h2>
+            <p class="text-[10px] text-gray-500">Attempts: <span id="p-tries">3</span>/3 | Time: <span id="p-timer">05:00</span></p>
             <div class="glass-card p-3 my-4">
-                <div id="puzzle-board"></div>
-                <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 uppercase shadow-lg">Start Game</button>
+                <div id="puzzle-board" class="puzzle-grid"></div>
+                <button onclick="startPuzzle()" id="p-start-btn" class="bg-yellow-600 px-6 py-2 rounded-xl font-bold text-[10px] mt-2 uppercase shadow-lg">Start Match</button>
             </div>
-            <p class="text-[10px] text-green-400 font-bold uppercase">Prize: $2.00 USDT</p>
+            <p class="text-[10px] text-green-400 font-bold uppercase tracking-widest">Prize: $2.00 USDT</p>
         </div>
 
         <!-- 4. TASKS TAB -->
         <div id="tasks" class="tab-content px-2">
-            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase text-center">Missions</h2>
-            <div class="space-y-2">
+            <h2 class="text-xs font-bold text-yellow-500 text-center mb-4 uppercase tracking-widest">Missions</h2>
+            <div class="space-y-2" id="task-list">
                 <div class="glass-card p-4 flex justify-between items-center">
-                    <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">Telegram Channel</p></div>
-                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 700)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">JOIN</button>
+                    <div class="flex items-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i><p class="text-xs font-bold">CR7 Channel</p></div>
+                    <button onclick="handleTask('tg', 'https://t.me/RichCamel0', 2000)" id="task-tg" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase shadow-md">JOIN</button>
                 </div>
                 <div class="glass-card p-4 flex justify-between items-center">
-                    <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">YouTube Sub</p></div>
-                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82?si=Le93ks0sWHIJ_BnO', 700)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase">SUBSCRIBE</button>
+                    <div class="flex items-center gap-3"><i class="fab fa-youtube text-red-500 text-2xl"></i><p class="text-xs font-bold">Subscribe Sub</p></div>
+                    <button onclick="handleTask('yt', 'https://youtube.com/@richcamel82', 2000)" id="task-yt" class="bg-yellow-600 px-5 py-1.5 rounded-lg text-[10px] font-bold uppercase shadow-md">SUBSCRIBE</button>
                 </div>
             </div>
         </div>
 
         <!-- 5. WITHDRAW TAB -->
         <div id="withdraw" class="tab-content text-center px-4">
-            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4">Withdraw USDT</h2>
+            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Withdraw USDT</h2>
             <div class="glass-card p-5 space-y-4">
-                <input type="text" id="w-addr" placeholder="USDT BEP-20 Address" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-xs outline-none">
+                <input type="text" id="w-addr" placeholder="Address (BEP-20)" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-xs outline-none focus:border-yellow-600">
                 <input type="number" id="w-amt" placeholder="Amount (Min $20)" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 px-4 text-sm outline-none">
                 <button onclick="submitWithdraw()" class="w-full bg-green-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Submit Request</button>
-                <p class="text-[8px] text-gray-500 uppercase mt-2">10 Referrals Required</p>
+                <p class="text-[8px] text-gray-500 uppercase mt-2 font-bold tracking-tighter">Note: 10 Referrals Required to Withdraw</p>
             </div>
         </div>
 
         <!-- 6. EXCHANGE TAB -->
         <div id="exchange" class="tab-content text-center px-4">
-            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Swap to TON</h2>
+            <h2 class="text-xs font-bold text-yellow-500 uppercase mb-4 tracking-widest">Football Swap</h2>
             <div class="glass-card p-6">
-                <input type="number" id="ex-input" oninput="updateEx()" placeholder="Coins" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 text-center text-lg font-bold mb-4 outline-none">
-                <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Get:</span><span class="text-blue-400 font-bold"><span id="ex-res">0.000</span> TON</span></div>
+                <input type="number" id="ex-input" oninput="updateEx()" placeholder="⚽ Ball Amount" class="w-full bg-black/60 border border-gray-700 rounded-xl py-3 text-center text-lg font-bold mb-4 outline-none">
+                <div class="flex justify-between text-[10px] font-bold px-2 uppercase mb-4"><span>Receive Est:</span><span class="text-blue-400 font-bold"><span id="ex-res">0.000</span> TON</span></div>
                 <button onclick="confirmSwap()" class="w-full bg-blue-600 py-3 rounded-xl font-bold text-[10px] uppercase shadow-lg">Swap Now</button>
             </div>
         </div>
@@ -183,128 +195,107 @@
         <div id="airdrop" class="tab-content text-center px-6">
             <div class="pt-6">
                 <div class="text-6xl mb-4 drop-shadow-lg">💎</div>
-                <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-6 tracking-widest">Airdrop</h2>
-                <div class="glass-card p-4 mb-3 text-[9px] text-left uppercase leading-relaxed">
+                <h2 class="text-2xl font-bold text-yellow-500 uppercase mb-4 tracking-widest">Airdrop</h2>
+                <div class="glass-card p-4 mb-3 text-[9px] text-left uppercase leading-relaxed tracking-tighter">
                     <p class="text-red-400 font-bold mb-1 underline">Requirement</p>
-                    <p>Minimum 10 referrals required for snapshot eligibility.</p>
+                    <p>Minimum 10 referrals required. Stay active for the World Cup snapshot.</p>
                 </div>
-                <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10">LISTING SOON</div>
+                <div class="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl font-bold text-yellow-500 text-[10px] mt-10 uppercase tracking-widest shadow-inner">Binance Listing Soon</div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Nav Bar -->
+    <!-- Bottom Nav -->
     <div class="bottom-nav">
-        <button onclick="nav('home')" class="nav-btn active"><i class="fas fa-home"></i><span>Home</span></button>
-        <button onclick="nav('mine')" class="nav-btn"><i class="fas fa-pickaxe"></i><span>Mine</span></button>
-        <button onclick="nav('puzzle')" class="nav-btn"><i class="fas fa-puzzle-piece"></i><span>Puzzle</span></button>
-        <button onclick="nav('tasks')" class="nav-btn"><i class="fas fa-tasks"></i><span>Tasks</span></button>
-        <button onclick="nav('withdraw')" class="nav-btn"><i class="fas fa-wallet"></i><span>Withdraw</span></button>
+        <button onclick="nav('home')" class="nav-btn active"><i class="fas fa-futbol"></i><span>Stadium</span></button>
+        <button onclick="nav('mine')" class="nav-btn"><i class="fas fa-pickaxe"></i><span>Training</span></button>
+        <button onclick="nav('puzzle')" class="nav-btn"><i class="fas fa-puzzle-piece"></i><span>Tactics</span></button>
+        <button onclick="nav('tasks')" class="nav-btn"><i class="fas fa-tasks"></i><span>Missions</span></button>
+        <button onclick="nav('withdraw')" class="nav-btn"><i class="fas fa-wallet"></i><span>USD</span></button>
         <button onclick="nav('exchange')" class="nav-btn"><i class="fas fa-sync"></i><span>Swap</span></button>
         <button onclick="nav('airdrop')" class="nav-btn"><i class="fas fa-parachute-box"></i><span>Drop</span></button>
     </div>
 
     <script>
-        // --- AUDIO SYSTEM ---
+        // --- AUDIO ---
         let audioUnlocked = false;
-        let popSound;
-        function initAudio() { if(!audioUnlocked) { popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-20.mp3'); popSound.play().then(()=>{ popSound.pause(); audioUnlocked=true; }).catch(()=>{}); } }
-        function playSfx() { if(audioUnlocked && popSound) { popSound.currentTime = 0; popSound.play().catch(()=>{}); } }
+        let siuuSound;
+        function initAudio() { if(!audioUnlocked) { try { siuuSound = new Audio('https://www.myinstants.com/media/sounds/ronaldo-siuuu.mp3'); siuuSound.play().then(()=>{ siuuSound.pause(); audioUnlocked=true; }).catch(()=>{}); } catch(e){} } }
+        function playSfx() { if(audioUnlocked && siuuSound) { siuuSound.currentTime = 0; siuuSound.volume = 0.5; siuuSound.play().catch(()=>{}); } }
 
-        // --- CORE DATA PERSISTENCE ---
-        let balance = parseFloat(localStorage.getItem('rc_balance')) || 0;
-        let pph = parseFloat(localStorage.getItem('rc_pph')) || 0;
-        let energy = parseFloat(localStorage.getItem('rc_energy')) || 1000;
-        let tonBal = parseFloat(localStorage.getItem('rc_ton_balance')) || 0;
-        let usdBal = parseFloat(localStorage.getItem('rc_usd_balance')) || 0;
-        let lastTime = parseInt(localStorage.getItem('rc_last_time')) || Date.now();
-        let levels = JSON.parse(localStorage.getItem('rc_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
-        let tasks = JSON.parse(localStorage.getItem('rc_tasks')) || [];
-        let pTries = parseInt(localStorage.getItem('rc_puzzle_tries')) || 3;
-        let pDate = localStorage.getItem('rc_puzzle_date') || "";
+        // --- CORE DATA ---
+        let balance = parseFloat(localStorage.getItem('cr7_ball_balance')) || 0;
+        let pph = parseFloat(localStorage.getItem('cr7_pph')) || 0;
+        let energy = parseFloat(localStorage.getItem('cr7_energy')) || 1000;
+        let tonBal = parseFloat(localStorage.getItem('cr7_ton_balance')) || 0;
+        let usdBal = parseFloat(localStorage.getItem('cr7_usd_balance')) || 0;
+        let lastTime = parseInt(localStorage.getItem('cr7_last_time')) || Date.now();
+        let levels = JSON.parse(localStorage.getItem('cr7_levels')) || {1:0, 2:0, 3:0, 4:0, 5:0};
+        let tasks = JSON.parse(localStorage.getItem('cr7_tasks')) || [];
+        let pTries = parseInt(localStorage.getItem('cr7_puzzle_tries')) || 3;
+        let pDate = localStorage.getItem('cr7_puzzle_date') || "";
 
-        // --- OLD USER BONUS (300,000 Coin) ---
-        const BONUS_FLAG = 'rc_bonus_v8_applied';
-        function applyBonus() {
-            if (!localStorage.getItem(BONUS_FLAG)) {
-                if (localStorage.getItem('rc_balance') || localStorage.getItem('rc_pph')) {
-                    balance += 300000;
-                    alert("Old User Detected! 🐫 You received 300,000 bonus coins!");
-                }
-                localStorage.setItem(BONUS_FLAG, 'true');
-            }
-        }
-
-        // --- UPDATED UPGRADES (Income divided by 3) ---
         const upgrades = [
-            { id: 1, name: "Camel Milk", cost: 500, pph: 16.6, icon: "🥛" },
-            { id: 2, name: "Desert Convoy", cost: 2000, pph: 83.3, icon: "🚚" },
-            { id: 3, name: "Oasis Resort", cost: 10000, pph: 400, icon: "🌴" },
-            { id: 4, name: "Gold Mine", cost: 50000, pph: 1833.3, icon: "⛏️" },
-            { id: 5, name: "Crypto Camel", cost: 250000, pph: 6666.6, icon: "💹" }
+            { id: 1, name: "Football Academy", cost: 500, pph: 50, icon: "👟" },
+            { id: 2, name: "Golden Boot", cost: 2000, pph: 250, icon: "🏆" },
+            { id: 3, name: "Sponsorship", cost: 10000, pph: 1200, icon: "✔️" },
+            { id: 4, name: "Luxury Hotel", cost: 50000, pph: 5500, icon: "🏨" },
+            { id: 5, name: "Real Madrid Deal", cost: 250000, pph: 20000, icon: "🏟️" }
         ];
 
-        function fastSave() {
-            localStorage.setItem('rc_balance', balance);
-            localStorage.setItem('rc_pph', pph);
-            localStorage.setItem('rc_energy', energy);
-            localStorage.setItem('rc_ton_balance', tonBal);
-            localStorage.setItem('rc_usd_balance', usdBal);
-            localStorage.setItem('rc_levels', JSON.stringify(levels));
-            localStorage.setItem('rc_tasks', JSON.stringify(tasks));
-            localStorage.setItem('rc_puzzle_tries', pTries);
-            localStorage.setItem('rc_puzzle_date', pDate);
-            localStorage.setItem('rc_last_time', Date.now());
+        function commitSave() {
+            localStorage.setItem('cr7_ball_balance', balance);
+            localStorage.setItem('cr7_pph', pph);
+            localStorage.setItem('cr7_energy', energy);
+            localStorage.setItem('cr7_ton_balance', tonBal);
+            localStorage.setItem('cr7_usd_balance', usdBal);
+            localStorage.setItem('cr7_levels', JSON.stringify(levels));
+            localStorage.setItem('cr7_tasks', JSON.stringify(tasks));
+            localStorage.setItem('cr7_puzzle_tries', pTries);
+            localStorage.setItem('cr7_puzzle_date', pDate);
+            localStorage.setItem('cr7_last_time', Date.now());
         }
 
         function updateUI() {
             document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
             document.getElementById('ton-display').innerText = tonBal.toFixed(3);
             document.getElementById('usd-display').innerText = "$" + usdBal.toFixed(2);
-            document.getElementById('pph-display').innerText = "+" + Math.floor(pph);
+            document.getElementById('pph-display').innerText = Math.floor(pph);
             document.getElementById('energy').innerText = Math.floor(energy);
             document.getElementById('energy-bar').style.width = (energy/10) + '%';
             document.getElementById('p-tries').innerText = pTries;
 
-            const ranks = ["Nomad", "Merchant", "Trader", "Millionaire", "Legend"];
-            let idx = balance > 1000000 ? 4 : balance > 500000 ? 3 : balance > 100000 ? 2 : balance > 10000 ? 1 : 0;
+            const ranks = ["Nomad", "Starter", "Legend", "G.O.A.T"];
+            let idx = balance > 1000000 ? 3 : balance > 500000 ? 2 : balance > 50000 ? 1 : 0;
             document.getElementById('rank-name').innerText = ranks[idx];
-            fastSave();
+            commitSave();
         }
 
         window.onload = () => {
-            applyBonus();
+            const diff = Math.floor((Date.now() - lastTime)/1000);
+            if(diff > 0) { balance += (pph/3600)*diff; energy = Math.min(1000, energy+diff); }
             setTimeout(() => { document.getElementById('splash').style.display='none'; }, 3000);
             updateUI(); initMine();
             tasks.forEach(t=>{ const b=document.getElementById(`task-${t}`); if(b){ b.innerText="✅ DONE"; b.disabled=true; }});
         };
 
-        // --- TAP LOGIC (divided by 3) ---
+        // Tap
         document.getElementById('tap-target').onclick = (e) => {
             if(energy >= 1) {
-                playSfx(); 
-                balance += 0.333;
-                energy--;
-                showFloat(e.clientX, e.clientY, "+0.33");
+                playSfx(); balance++; energy--;
+                const f = document.createElement('div');
+                f.className='siuuu-text'; f.style.left=e.clientX+'px'; f.style.top=e.clientY+'px'; f.innerText="SIUUU!";
+                document.body.appendChild(f); setTimeout(()=>f.remove(),800);
                 updateUI();
             }
         };
 
-        function showFloat(x, y, text) {
-            const div = document.createElement('div');
-            div.className = 'floating-text';
-            div.style.left = x + 'px'; div.style.top = y + 'px';
-            div.innerText = text;
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 600);
-        }
-
-        // Puzzle Logic
+        // Puzzle
         let pActive = false, pGrid = [], pSize = 3, pTimer;
         function startPuzzle() {
             const today = new Date().toLocaleDateString();
             if(pDate !== today) { pTries = 3; pDate = today; }
-            if(pTries <= 0) return alert("Daily limit reached!");
+            if(pTries <= 0) return alert("Come back tomorrow!");
             if(pActive) return;
             pTries--; pActive = true;
             pSize = (usdBal > 6) ? (usdBal > 15 ? 5 : 4) : 3;
@@ -323,29 +314,16 @@
         }
         function renderP() {
             const b = document.getElementById('puzzle-board'); b.style.gridTemplateColumns=`repeat(${pSize}, 1fr)`; b.innerHTML='';
-            pGrid.forEach((v,i) => {
-                const t = document.createElement('div');
-                t.className = 'puzzle-tile' + (v?'':' puzzle-empty');
-                t.innerText = v || ''; t.onclick = () => moveT(i); b.appendChild(t);
-            });
+            pGrid.forEach((v,i)=>{ const t=document.createElement('div'); t.className='puzzle-tile'+(v?'':' tile-empty'); t.innerText=v||''; t.onclick=()=>moveT(i); b.appendChild(t); });
         }
         function moveT(i) {
             if(!pActive) return;
-            let empty = pGrid.indexOf(null), r=Math.floor(i/pSize), c=i%pSize, er=Math.floor(empty/pSize), ec=empty%pSize;
-            if(Math.abs(r-er)+Math.abs(c-ec) === 1) {
-                playSfx(); [pGrid[i], pGrid[empty]] = [pGrid[empty], pGrid[i]]; renderP();
-                if(pGrid.slice(0,-1).every((v,idx)=>v===idx+1)) stopPuzzle(true);
-            }
+            let empty=pGrid.indexOf(null), r=Math.floor(i/pSize), c=i%pSize, er=Math.floor(empty/pSize), ec=empty%pSize;
+            if(Math.abs(r-er)+Math.abs(c-ec)===1) { [pGrid[i],pGrid[empty]]=[pGrid[empty],pGrid[i]]; renderP(); if(pGrid.slice(0,-1).every((v,idx)=>v===idx+1)) stopPuzzle(true); }
         }
-        function stopPuzzle(win) {
-            pActive = false; clearInterval(pTimer);
-            document.getElementById('p-start-btn').style.display='inline-block';
-            if(win) { usdBal += 2; alert("Winner! $2.00 USDT added!"); }
-            updateUI();
-        }
+        function stopPuzzle(win) { pActive=false; clearInterval(pTimer); document.getElementById('p-start-btn').style.display='inline-block'; if(win){ usdBal+=2; alert("Winner! $2.00 added!"); } updateUI(); }
 
-        window.submitWithdraw = () => { alert("Verify Address & 10 Referrals Required!"); };
-
+        // Mine
         function initMine() {
             const l = document.getElementById('upgrade-list'); if(!l) return;
             l.innerHTML = '';
@@ -353,38 +331,22 @@
                 let lv = levels[u.id] || 0, c = Math.floor(u.cost * Math.pow(1.5, lv));
                 const d = document.createElement('div');
                 d.className = "glass-card p-3 flex justify-between items-center";
-                d.innerHTML = `<div class="flex items-center gap-3"><span>${u.icon}</span><div><p class="text-[10px] font-bold">${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">💰 ${c.toLocaleString()}</p></div></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase">UPGRADE</button>`;
+                d.innerHTML = `<div class="flex items-center gap-3"><span>${u.icon}</span><div><p class="text-[10px] font-bold">${u.name}</p><p class="text-[8px] text-gray-500">Lv ${lv} • +${u.pph}/h</p><p class="text-[10px] font-bold text-yellow-500">⚽ ${c.toLocaleString()}</p></div></div><button onclick="buyU(${u.id},${c},${u.pph})" class="bg-yellow-600 px-3 py-1.5 rounded-lg text-[9px] font-bold">UPGRADE</button>`;
                 l.appendChild(d);
             });
         }
-        window.buyU = (id,c,b) => { if(balance>=c) { playSfx(); balance-=c; pph+=b; levels[id]++; initMine(); updateUI(); } else alert("No Coins!"); };
-        window.nav = (id) => { playSfx(); document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
-        window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1000?(v/1000*0.01).toFixed(3):"0.000"); };
-        window.confirmSwap = () => { let v = parseInt(document.getElementById('ex-input').value); if(v>=1000 && balance >= v) { playSfx(); tonBal+=(v/1000*0.01); balance-=v; updateUI(); alert("Swapped!"); } };
-        
-        // UPDATED: Rewards changed from 666 to 700 coins
-        window.handleTask = (id,l,r) => { 
-            playSfx(); 
-            window.open(l,'_blank'); 
-            const b=document.getElementById(`task-${id}`); 
-            if(b.innerText!=="CLAIM") { 
-                b.innerText="CLAIM"; 
-            } else { 
-                balance += 700; // Reward updated to 700
-                tasks.push(id); 
-                b.innerText="✅ DONE"; 
-                b.disabled=true; 
-                updateUI(); 
-            } 
-        };
+        window.buyU = (id,c,b) => { if(balance>=c) { balance-=c; pph+=b; levels[id]++; initMine(); updateUI(); } else alert("Need more ⚽ Balls!"); };
 
-        // Sync and Loops
-        const diff = Math.floor((Date.now() - lastTime)/1000);
-        if(diff > 0) { balance += (pph/3600)*diff; energy = Math.min(1000, energy+diff); }
+        // Functions
+        window.nav = (id) => { document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active-tab')); document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active')); document.getElementById(id).classList.add('active-tab'); event.currentTarget.classList.add('active'); if(id==='mine') initMine(); };
+        window.updateEx = () => { let v = document.getElementById('ex-input').value; document.getElementById('ex-res').innerText = (v>=1000?(v/1000*0.01).toFixed(3):"0.000"); };
+        window.confirmSwap = () => { let v = parseInt(document.getElementById('ex-input').value); if(v>=1000 && balance >= v) { tonBal+=(v/1000*0.01); balance-=v; updateUI(); alert("Goal! Swapped to TON!"); } };
+        window.handleTask = (id,l,r) => { window.open(l,'_blank'); const b=document.getElementById(`task-${id}`); if(b.innerText!=="CLAIM") { b.innerText="CLAIM"; } else { balance+=r; tasks.push(id); b.innerText="✅ DONE"; b.disabled=true; updateUI(); } };
+        window.submitWithdraw = () => { alert("Recruit 10 teammates (Referrals) to unlock withdrawal!"); };
+
+        // Main Loops
         setInterval(() => { if(pph>0) balance += (pph/3600); if(energy<1000) energy++; updateUI(); }, 1000);
-        
-        // AD REWARD (100 coins)
-        setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=100; updateUI(); }); }, 120000);
+        setInterval(() => { if(typeof window.showGiga === 'function') window.showGiga().then(()=>{ balance+=300; updateUI(); }); }, 120000);
     </script>
 </body>
 </html>
