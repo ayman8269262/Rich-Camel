@@ -1,1 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GameBox Hub - Premium Mini-Games</title>
+    <!-- GigaPub Ads integration -->
+    <script src="https://ad.gigapub.tech/script?id=6845"></script>
+    <script data-project-id="6845">
+      !function(){
+        var s=document.currentScript,p=s.getAttribute('data-project-id')||'default';
+        var d=['https://ad.gigapub.tech','https://ru-ad.gigapub.tech'],i=0,t,sc;
+        function l(){
+          sc=document.createElement('script');
+          sc.async=true;
+          sc.src=d[i]+'/script?id='+p;
+          clearTimeout(t);
+          t=setTimeout(function(){
+            sc.onload=sc.onerror=null;
+            sc.src='';
+            if(++i<d.length)l();
+          },15000);
+          sc.onload=function(){clearTimeout(t)};
+          sc.onerror=function(){clearTimeout(t);if(++i<d.length)l()};
+          document.head.appendChild(sc);
+        }
+        l();
+      }();
+    </script>
+    <script>
+      // Fallback/Wrapper in case gigapub fails, is blocked, or runs outside Telegram
+      window.playInAppAd = function() {
+        console.log("Playing simulated interactive in-app ad...");
+        return new Promise(function(resolve) {
+          // Attach resolve handler globally so closing the ad triggers it
+          window._gigaAdResolve = resolve;
+          window.dispatchEvent(new CustomEvent('show-in-app-ad'));
+        });
+      };
+
+      // Set fallback function
+      window.AdGigaFallback = window.playInAppAd;
+
+      // Define a bulletproof caller for showGiga that checks if GigaPub has successfully loaded
+      window.triggerGigaAd = function() {
+        console.log("triggerGigaAd called");
+        if (window.showGiga === undefined || typeof window.showGiga !== 'function') {
+          window.showGiga = function() {
+            console.log("GigaPub not loaded, falling back...");
+            return window.AdGigaFallback();
+          };
+        }
+        return window.showGiga()
+          .then(function() {
+            console.log("GigaPub ad displayed successfully.");
+          })
+          .catch(function(e) {
+            console.error("GigaPub error, playing fallback:", e);
+            return window.playInAppAd();
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
 
